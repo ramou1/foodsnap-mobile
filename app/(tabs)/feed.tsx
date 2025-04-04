@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
+
+import EditScreenInfo from '@/components/EditScreenInfo';
+import { Text, View } from '@/components/Themed';
 
 // dados mockados para o feed
 const feedItems = [
@@ -42,52 +43,22 @@ const feedItems = [
   },
 ];
 
-export default function FeedScreen() {
-  const [favorites, setFavorites] = React.useState(
-    feedItems.reduce((acc: any, item) => {
-      acc[item.id] = item.isFavorite;
-      return acc;
-    }, {})
-  );
-
-  const toggleFavorite = (id: any) => {
-    setFavorites((prev: any) => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
+export default function TabOneScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <View className="px-4 py-4 bg-white shadow-sm">
-        <Text className="text-2xl font-bold text-gray-800">Explorar</Text>
-      </View>
-      
-      <ScrollView className="flex-1 p-4">
-        <View className="flex-row flex-wrap justify-between">
-          {feedItems.map((item) => (
-            <View key={item.id} className="w-full mb-6">
-              <View className="bg-white rounded-xl shadow-md overflow-hidden">
-                <Image
-                  source={{ uri: item.image }}
-                  className="w-full h-48 rounded-t-xl"
-                  resizeMode="cover"
-                />
-                <View className="p-4 flex-row justify-between items-center">
-                  <Text className="text-lg font-medium text-gray-800">{item.title}</Text>
-                  <TouchableOpacity onPress={() => toggleFavorite(item.id)}>
-                    <FontAwesome
-                      name={favorites[item.id] ? 'star' : 'star-o'}
-                      size={24}
-                      color={favorites[item.id] ? '#FFD700' : '#9CA3AF'}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Página Feed</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+});
