@@ -29,7 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      "nativewind/babel"
+      "nativewind/expo"
     ],
     "experiments": {
       "typedRoutes": true
