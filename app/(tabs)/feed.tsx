@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import { Text } from '@/components/Themed';
+import { FontAwesome } from '@expo/vector-icons';
+import { useState } from 'react';
 
 // dados mockados para o feed
 const feedItems = [
@@ -43,22 +43,48 @@ const feedItems = [
   },
 ];
 
-export default function TabOneScreen() {
+export default function FeedScreen() {
+  const [feed, setFeed] = useState(feedItems);
+
+  const toggleFavorite = (id: any) => {
+    setFeed(feed.map(item => 
+      item.id === id ? {...item, isFavorite: !item.isFavorite} : item
+    ));
+  };
+
+  const renderItem = ({ item }: any) => (
+    <View className="mb-6 mx-4">
+      <View className="bg-white rounded-2xl overflow-hidden">
+        <Image 
+          source={{ uri: item.image }} 
+          className="w-full h-64"
+          resizeMode="cover"
+        />
+      </View>
+      
+      <View className="flex-row justify-between items-center mt-2 px-1">
+        <Text className="text-base font-medium">{item.title}</Text>
+        <TouchableOpacity onPress={() => toggleFavorite(item.id)}>
+          <FontAwesome 
+            name={item.isFavorite ? "star" : "star-o"} 
+            size={24} 
+            color={item.isFavorite ? "#FFC107" : "#BDBDBD"} 
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Página Feed</Text>
+    <View className="flex-1 bg-gray-100 pt-4">
+      <FlatList
+        data={feed}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        numColumns={1}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-});

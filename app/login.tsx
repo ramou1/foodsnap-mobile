@@ -1,40 +1,45 @@
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      {/* <Image source={require('../assets/icon.png')} style={styles.logo} /> */}
-      <Text className="text-red-500 text-bold text-3xl mb-4">Bem-vindo</Text>
-      <TextInput placeholder="E-mail" style={styles.input} keyboardType="email-address" />
-      <TextInput placeholder="Senha" style={styles.input} secureTextEntry />
-      <Button title="Entrar" onPress={() => router.replace('/(tabs)/feed')} />
+    <View className="flex-1 justify-center items-center p-6 bg-white">
+      {/* <Image source={require('../assets/icon.png')} className="w-24 h-24 mb-8" /> */}
+      <Text className="text-3xl font-bold text-blue-600 mb-8">Bem-vindo</Text>
+      
+      <View className="w-full space-y-4">
+        <View className="w-full">
+          <TextInput 
+            placeholder="E-mail" 
+            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50"
+            keyboardType="email-address"
+          />
+        </View>
+        
+        <View className="w-full">
+          <TextInput 
+            placeholder="Senha" 
+            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50"
+            secureTextEntry
+          />
+        </View>
+        
+        <TouchableOpacity 
+          onPress={() => router.replace('/(tabs)/feed')}
+          className="w-full h-12 bg-blue-500 rounded-lg flex items-center justify-center mt-4"
+        >
+          <Text className="text-white font-bold text-lg">Entrar</Text>
+        </TouchableOpacity>
+      </View>
+      
+      <View className="flex-row justify-center mt-6">
+        <Text className="text-gray-600">Não tem uma conta? </Text>
+        <TouchableOpacity>
+          <Text className="text-blue-500 font-bold">Cadastre-se</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-});

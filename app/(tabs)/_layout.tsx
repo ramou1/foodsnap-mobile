@@ -1,28 +1,56 @@
 import { Tabs } from 'expo-router';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Image, View } from 'react-native';
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#FF6347',
+        tabBarInactiveTintColor: '#888888',
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '500',
+          textTransform: 'lowercase',
+        },
+        tabBarStyle: {
+          height: 62,
+          borderTopWidth: 0,
+        },
+        tabBarItemStyle: {
+          marginTop: 5,
+        },
+        headerShadowVisible: false,
+        headerTitle: '',
+        //headerStyle: {         
+        //  backgroundColor: '#FF453F',        
+        //}
+        headerLeft: () => (
+          <View style={{ marginLeft: 16 }}>
+            <Image
+              source={require('../../assets/images/logo.png')}
+              style={{ width: 120, height: 32, resizeMode: 'contain' }}
+            />
+          </View>
+        ),
       }}>
       <Tabs.Screen
-        name="index"
+        name="feed"
         options={{
           title: 'Feed',
+          headerShown: true,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="home" color={color} size={size} />
+            <FontAwesome5 name="home" color={color} size={size} />
           ),
         }}
       />
       <Tabs.Screen
         name="trend"
         options={{
-          title: 'Trend',
+          title: 'Discover',
+          headerShown: true,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="line-chart" color={color} size={size} />
+            <FontAwesome5 name="compass" color={color} size={size} />
           ),
         }}
       />
@@ -30,8 +58,9 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: 'Profile',
+          headerShown: true,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="user" color={color} size={size} />
+            <FontAwesome5 name="user-circle" color={color} size={size} />
           ),
         }}
       />
@@ -39,8 +68,9 @@ export default function TabsLayout() {
         name="settings"
         options={{
           title: 'Settings',
+          headerShown: true,
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="cog" color={color} size={size} />
+            <FontAwesome5 name="cog" color={color} size={size} />
           ),
         }}
       />
