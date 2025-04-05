@@ -2,46 +2,10 @@ import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/Themed';
 import { FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
+import { POSTS } from '@/mocks/posts';
 
 // dados mockados para o feed
-const feedItems = [
-  {
-    id: '1',
-    title: 'Montanhas ao Pôr do Sol',
-    image: 'https://source.unsplash.com/random/400x300/?mountains',
-    isFavorite: true,
-  },
-  {
-    id: '2',
-    title: 'Praia Paradisíaca',
-    image: 'https://source.unsplash.com/random/400x300/?beach',
-    isFavorite: false,
-  },
-  {
-    id: '3',
-    title: 'Floresta Tropical',
-    image: 'https://source.unsplash.com/random/400x300/?forest',
-    isFavorite: false,
-  },
-  {
-    id: '4',
-    title: 'Cidade à Noite',
-    image: 'https://source.unsplash.com/random/400x300/?city,night',
-    isFavorite: true,
-  },
-  {
-    id: '5',
-    title: 'Cachoeira Exuberante',
-    image: 'https://source.unsplash.com/random/400x300/?waterfall',
-    isFavorite: false,
-  },
-  {
-    id: '6',
-    title: 'Aurora Boreal',
-    image: 'https://source.unsplash.com/random/400x300/?aurora',
-    isFavorite: true,
-  },
-];
+const feedItems = POSTS;
 
 export default function FeedScreen() {
   const [feed, setFeed] = useState(feedItems);
@@ -66,7 +30,7 @@ export default function FeedScreen() {
         <Text className="text-base font-medium">{item.title}</Text>
         <TouchableOpacity onPress={() => toggleFavorite(item.id)}>
           <FontAwesome 
-            name={item.isFavorite ? "star" : "star-o"} 
+            name={item.isFavorite ? "heart" : "heart-o"} 
             size={24} 
             color={item.isFavorite ? "#FFC107" : "#BDBDBD"} 
           />

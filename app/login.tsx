@@ -13,7 +13,7 @@ export default function LoginScreen() {
         <View className="w-full">
           <TextInput 
             placeholder="E-mail" 
-            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50"
+            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50 text-base"
             keyboardType="email-address"
           />
         </View>
@@ -21,7 +21,7 @@ export default function LoginScreen() {
         <View className="w-full">
           <TextInput 
             placeholder="Senha" 
-            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50"
+            className="w-full h-12 border border-gray-300 rounded-lg px-4 bg-gray-50 text-base"
             secureTextEntry
           />
         </View>
@@ -35,9 +35,9 @@ export default function LoginScreen() {
       </View>
       
       <View className="flex-row justify-center mt-6">
-        <Text className="text-gray-600">Não tem uma conta? </Text>
+        <Text className="text-gray-600 text-base">Não tem uma conta? </Text>
         <TouchableOpacity>
-          <Text className="text-blue-500 font-bold">Cadastre-se</Text>
+          <Text className="text-blue-500 font-bold text-base">Cadastre-se</Text>
         </TouchableOpacity>
       </View>
     </View>
