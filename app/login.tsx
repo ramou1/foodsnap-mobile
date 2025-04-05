@@ -7,7 +7,7 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       {/* <Image source={require('../assets/icon.png')} style={styles.logo} /> */}
-      <Text style={styles.title}>Bem-vindo</Text>
+      <Text className="text-red-500 text-bold text-3xl mb-4">Bem-vindo</Text>
       <TextInput placeholder="E-mail" style={styles.input} keyboardType="email-address" />
       <TextInput placeholder="Senha" style={styles.input} secureTextEntry />
       <Button title="Entrar" onPress={() => router.replace('/(tabs)/feed')} />
@@ -26,11 +26,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {
