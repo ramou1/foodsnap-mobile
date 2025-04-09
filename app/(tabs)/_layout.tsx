@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Image, View, TouchableOpacity } from 'react-native';
 
@@ -35,8 +35,8 @@ export default function TabsLayout() {
             <TouchableOpacity style={{ marginRight: 16 }}>
               <FontAwesome5 name="bell" size={24} color="#FF6347" />
             </TouchableOpacity>
-
-            <TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => router.push('/profile')}>
               <Image
                 source={require('../../assets/images/default-avatar.png')}
                 style={{
@@ -61,8 +61,7 @@ export default function TabsLayout() {
           ),
         }}
       />
-
-      {/* Botão de câmera no meio */}
+      
       <Tabs.Screen
         name="camera"
         options={{
@@ -95,15 +94,14 @@ export default function TabsLayout() {
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
-            // Previne a navegação padrão
             e.preventDefault();
-
-            // Aqui você pode adicionar a lógica de abrir a câmera/galeria no futuro
+            
+            // adicionar a lógica de abrir a câmera/galeria no futuro
             console.log('Botão da câmera pressionado');
           },
         })}
       />
-
+      
       <Tabs.Screen
         name="trend"
         options={{

@@ -13,7 +13,7 @@ import { FOOD_TRENDS } from "@/mocks/trends";
 
 const { width } = Dimensions.get("window");
 const GAP = 12;
-const COLUMN_WIDTH = (width - 28 - GAP) / 2;
+const COLUMN_WIDTH = (width - 32 - GAP) / 2;
 
 export default function TrendsScreen() {
   const [trends, setTrends] = useState(FOOD_TRENDS);
