@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Image, View } from 'react-native';
+import { Image, View, TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
   return (
@@ -22,15 +22,32 @@ export default function TabsLayout() {
         },
         headerShadowVisible: false,
         headerTitle: '',
-        //headerStyle: {         
-        //  backgroundColor: '#FF453F',        
-        //}
         headerLeft: () => (
           <View style={{ marginLeft: 16 }}>
             <Image
               source={require('../../assets/images/logo.png')}
               style={{ width: 120, height: 32, resizeMode: 'contain' }}
             />
+          </View>
+        ),
+        headerRight: () => (
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16 }}>
+            <TouchableOpacity style={{ marginRight: 16 }}>
+              <FontAwesome5 name="bell" size={24} color="#FF6347" />
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/default-avatar.png')}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0'
+                }}
+              />
+            </TouchableOpacity>
           </View>
         ),
       }}>
@@ -44,6 +61,49 @@ export default function TabsLayout() {
           ),
         }}
       />
+
+      {/* Botão de câmera no meio */}
+      <Tabs.Screen
+        name="camera"
+        options={{
+          title: '',
+          headerShown: false,
+          tabBarIcon: ({ size }) => (
+            <View style={{
+              width: 56,
+              height: 56,
+              borderRadius: 28,
+              backgroundColor: '#222222',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 16,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }}>
+              <FontAwesome5 name="camera" size={size} color="#FFFFFF" />
+            </View>
+          ),
+          tabBarItemStyle: {
+            height: 62
+          }
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            // Previne a navegação padrão
+            e.preventDefault();
+
+            // Aqui você pode adicionar a lógica de abrir a câmera/galeria no futuro
+            console.log('Botão da câmera pressionado');
+          },
+        })}
+      />
+
       <Tabs.Screen
         name="trend"
         options={{
@@ -51,26 +111,6 @@ export default function TabsLayout() {
           headerShown: true,
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="compass" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="user-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="cog" color={color} size={size} />
           ),
         }}
       />

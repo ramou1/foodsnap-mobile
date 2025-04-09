@@ -12,7 +12,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FOOD_TRENDS } from "@/mocks/trends";
 
 const { width } = Dimensions.get("window");
-const COLUMN_WIDTH = (width - 24) / 3; // Ajustei levemente para ter um pouco mais de espaço nos cards
+const GAP = 12;
+const COLUMN_WIDTH = (width - 28 - GAP) / 2;
 
 export default function TrendsScreen() {
   const [trends, setTrends] = useState(FOOD_TRENDS);
@@ -25,10 +26,6 @@ export default function TrendsScreen() {
     );
   };
 
-  const firstColumnItems = trends.slice(0, 2);
-  const secondColumnItems = trends.slice(2, 4);
-  const thirdColumnItems = trends.slice(4, 5);
-
   const renderTrendCard = (
     item: {
       id: any;
@@ -38,21 +35,19 @@ export default function TrendsScreen() {
       image: any;
       isFavorite: any;
     },
-    isLarge: boolean = false
+    customWidth: number = COLUMN_WIDTH,
+    customHeight: number = 140
   ) => {
-    const cardHeight = isLarge ? 285 : 140;
-    const cardWidth = isLarge ? COLUMN_WIDTH : COLUMN_WIDTH;
-
     return (
       <View
         key={item.id}
-        className={`mb-1 rounded-md overflow-hidden bg-white`}
-        style={{ height: cardHeight, width: cardWidth }}
+        className="mb-2 rounded-md overflow-hidden bg-white"
+        style={{ height: customHeight, width: customWidth }}
       >
         <Image
           source={{ uri: item.image }}
           className="absolute w-full h-full"
-          style={{ width: cardWidth, height: cardHeight }}
+          style={{ width: customWidth, height: customHeight }}
         />
         <View className="absolute inset-0 bg-black/30" />
 
@@ -77,37 +72,59 @@ export default function TrendsScreen() {
     );
   };
 
+  // Garantindo que temos pelo menos 10 items para o layout
+  const ensuredTrends = [...trends];
+  while (ensuredTrends.length < 10) {
+    ensuredTrends.push(...trends.slice(0, Math.min(10 - ensuredTrends.length, trends.length)));
+  }
+
   return (
     <View className="flex-1 bg-gray-100">
       <StatusBar style="dark" />
 
       {/* Header */}
-      <View className="py-4 px-6 bg-white">
+      <View className="py-4 px-4 bg-white">
         <Text className="text-2xl font-bold text-gray-800">Tendências</Text>
         <Text className="text-gray-500">Descubra o que está em alta</Text>
       </View>
 
-      {/* Three Column Layout */}
-      <ScrollView className="flex-1 px-2 py-2">
-        {" "}
-        {/* Reduzi o padding top de pt-4 para pt-2 */}
+      {/* Layout personalizado */}
+      <ScrollView className="flex-1 px-4 py-3">
+        {/* Primeira linha: 2 colunas com 1 card em cada */}
         <View className="flex-row justify-between">
-          <View className="w-[32%]">
-            {" "}
-            {/* Aumentei levemente a largura para usar melhor o espaço */}
-            {firstColumnItems.map((item) => renderTrendCard(item))}
-          </View>
+          <View>{renderTrendCard(ensuredTrends[0])}</View>
+          <View>{renderTrendCard(ensuredTrends[1])}</View>
+        </View>
 
-          <View className="w-[32%]">
-            {secondColumnItems.map((item) => renderTrendCard(item))}
-          </View>
+        {/* Segunda linha: 1 coluna com 1 card ocupando inteiro */}
+        <View>
+          {renderTrendCard(ensuredTrends[2], width - 28, 200)}
+        </View>
 
-          <View className="w-[32%]">
-            {thirdColumnItems.map((item) => renderTrendCard(item, true))}
+        {/* Terceira linha: 2 colunas com 1 card em cada */}
+        <View className="flex-row justify-between">
+          <View>{renderTrendCard(ensuredTrends[3])}</View>
+          <View>{renderTrendCard(ensuredTrends[4])}</View>
+        </View>
+
+        {/* Quarta linha: 3 colunas com 1 card em cada */}
+        <View className="flex-row justify-between">
+          <View>
+            {renderTrendCard(ensuredTrends[5], (width - 25 - GAP * 2) / 3)}
+          </View>
+          <View>
+            {renderTrendCard(ensuredTrends[6], (width - 25 - GAP * 2) / 3)}
+          </View>
+          <View>
+            {renderTrendCard(ensuredTrends[7], (width - 25 - GAP * 2) / 3)}
           </View>
         </View>
-        {/* Padding at bottom for better scrolling experience */}
-        <View className="h-4" /> {/* Reduzi de h-6 para h-4 */}
+
+        {/* Quinta linha: 2 colunas com 1 card em cada */}
+        <View className="flex-row justify-between">
+          <View>{renderTrendCard(ensuredTrends[8])}</View>
+          <View>{renderTrendCard(ensuredTrends[9])}</View>
+        </View>
       </ScrollView>
     </View>
   );
