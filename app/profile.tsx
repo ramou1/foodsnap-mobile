@@ -1,32 +1,9 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
-import { useRouter } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
 
 export default function ProfileScreen() {
-  const router = useRouter();
-  const [avatar, setAvatar] = React.useState(require('../assets/images/default-avatar.png'));
-
-  const handleImagePicker = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setAvatar({ uri: result.assets[0].uri });
-    }
-  };
+  const [avatar] = React.useState(require('../assets/images/default-avatar.png'));
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -40,7 +17,6 @@ export default function ProfileScreen() {
               className="w-32 h-32 rounded-full border-2 border-gray-200"
             />
             <TouchableOpacity 
-              onPress={handleImagePicker}
               className="absolute bottom-0 right-0 bg-gray-800 p-2 rounded-full"
             >
               <FontAwesome5 name="camera" size={16} color="#FFFFFF" />
