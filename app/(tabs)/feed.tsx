@@ -78,7 +78,6 @@ export default function FeedScreen() {
           <View className="p-2">
             <View className="flex-row justify-between items-center mb-1">
               <View className="flex-row items-center">
-
                 <Image
                   source={item.user?.avatar || require('@/assets/images/default-avatar.png')}
                   className="rounded-full mr-2"
@@ -106,13 +105,6 @@ export default function FeedScreen() {
                 />
               </TouchableOpacity>
             </View>
-
-            {/* <Text 
-              className="text-sm font-medium" 
-              numberOfLines={2}
-            >
-              {item.title}
-            </Text> */}
           </View>
         </View>
       </TouchableOpacity>

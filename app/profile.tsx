@@ -15,6 +15,10 @@ export default function ProfileScreen() {
             <Image
               source={avatar}
               className="w-32 h-32 rounded-full border-2 border-gray-200"
+              style={{
+                width: 150,
+                height: 150,
+              }}
             />
             <TouchableOpacity 
               className="absolute bottom-0 right-0 bg-gray-800 p-2 rounded-full"
@@ -26,14 +30,14 @@ export default function ProfileScreen() {
 
         {/* Profile Info */}
         <View className="bg-white rounded-lg mx-4 p-4 mb-4">
-          <Text className="text-gray-500 mb-1">Name</Text>
-          <Text className="text-lg font-medium mb-4">User Name</Text>
+          <Text className="text-gray-500 mb-1">nome</Text>
+          <Text className="text-lg font-medium mb-4">Fulano de Tal</Text>
           
-          <Text className="text-gray-500 mb-1">Email</Text>
+          <Text className="text-gray-500 mb-1">email</Text>
           <Text className="text-lg font-medium mb-4">user@example.com</Text>
           
-          <Text className="text-gray-500 mb-1">Phone</Text>
-          <Text className="text-lg font-medium">+1 (555) 123-4567</Text>
+          <Text className="text-gray-500 mb-1">telefone</Text>
+          <Text className="text-lg font-medium">(55) 98123-4567</Text>
         </View>
 
         {/* Stats Section */}
