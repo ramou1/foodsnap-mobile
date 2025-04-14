@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer base {
-    html, body {
-      font-family: theme('fontFamily.rubik');
-    }
-  }
+body {
+  @apply font-rubik;
+}

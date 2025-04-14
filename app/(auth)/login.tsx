@@ -1,4 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/Themed';
 import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
