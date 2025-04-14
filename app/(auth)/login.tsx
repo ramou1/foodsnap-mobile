@@ -36,7 +36,7 @@ export default function LoginScreen() {
       
       <View className="flex-row justify-center mt-6">
         <Text className="text-gray-600 text-base">Não tem uma conta? </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
           <Text className="text-blue-500 font-bold text-base">Cadastre-se</Text>
         </TouchableOpacity>
       </View>
