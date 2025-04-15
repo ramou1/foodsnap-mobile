@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
   const [avatar] = React.useState(require('../assets/images/default-avatar.png'));
@@ -66,6 +67,10 @@ export default function ProfileScreen() {
           
           <TouchableOpacity className="bg-gray-200 py-3 rounded-lg items-center">
             <Text className="text-gray-800 font-medium text-lg">Settings</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className="bg-red-500 py-3 rounded-lg items-center mt-3" onPress={() => router.push('/(auth)/login')}>
+            <Text className="text-white font-medium text-lg">Logout</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
