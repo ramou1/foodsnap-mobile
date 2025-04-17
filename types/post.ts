@@ -11,7 +11,7 @@ export interface Post {
   image: ImageSourcePropType;
   isFavorite: boolean;
   height?: number;
-  user?: User;
+  user: User | null;
   timestamp?: string;
   likes?: number;
   comments?: number;

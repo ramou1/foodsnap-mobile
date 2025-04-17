@@ -1,32 +1,30 @@
 import {
-  FlatList,
   Image,
   TouchableOpacity,
   View,
   Dimensions,
+  Modal,
+  ScrollView,
 } from "react-native";
 import { Text } from "@/components/Themed";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { POSTS } from "@/mocks/posts";
 import { useRouter } from "expo-router";
 import { Post } from "@/types/post";
 
-// Pegar largura da tela para calcular dimensões
 const { width } = Dimensions.get("window");
-const numColumns = 2;
-const columnWidth = width / numColumns - 16; // Considerando margens
 
 export default function FeedScreen() {
-  // Definindo o tipo correto para o estado
   const [feed, setFeed] = useState<Post[]>([]);
+  const [numColumns, setNumColumns] = useState(3);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState("for-you");
   const router = useRouter();
 
-  // Preparar os dados com alturas variadas para efeito Pinterest
   useEffect(() => {
     const preparedData = POSTS.map((post) => ({
       ...post,
-      // Altura aleatória entre 150 e 280px para criar o efeito Pinterest
       height: Math.floor(Math.random() * (280 - 150) + 150),
     }));
 
@@ -34,7 +32,6 @@ export default function FeedScreen() {
   }, []);
 
   const toggleFavorite = (id: string, event: any) => {
-    // Previne que o toque na estrela também navegue para a página de detalhes
     event.stopPropagation();
     setFeed(
       feed.map((item) =>
@@ -50,77 +47,250 @@ export default function FeedScreen() {
     });
   };
 
-  const renderItem = ({ item, index }: { item: Post; index: number }) => {
-    // Ajustar margens para criar layout equilibrado
-    const isEven = index % 2 === 0;
+  const changeColumnView = (columns: number) => {
+    setNumColumns(columns);
+  };
+
+  const distributePostsByColumns = (posts: Post[]) => {
+    const filteredPosts =
+      activeTab === "following"
+        ? posts.filter((item) => item.isFavorite)
+        : posts;
+
+    const columns: Post[][] = Array.from({ length: numColumns }, () => []);
+
+    filteredPosts.forEach((post, index) => {
+      const columnIndex = index % numColumns;
+      columns[columnIndex].push(post);
+    });
+
+    return columns;
+  };
+
+  const renderPostItem = (item: Post) => {
+    const columnWidth = width / numColumns - (numColumns === 3 ? 6 : 10);
+    const margin = numColumns === 3 ? 2 : 4;
+
+    const imageHeight =
+      numColumns === 1
+        ? item.height
+          ? item.height * 1.5
+          : 350
+        : item.height || 200;
 
     return (
       <TouchableOpacity
+        key={item.id}
         style={{
           width: columnWidth,
-          marginLeft: isEven ? 8 : 4,
-          marginRight: isEven ? 4 : 8,
-          marginBottom: 12,
+          marginBottom: margin * 2,
         }}
         activeOpacity={0.9}
         onPress={() => navigateToPostDetail(item)}
       >
-        <View className="bg-white rounded-2xl overflow-hidden">
+        <View className="bg-white rounded-lg overflow-hidden">
           <Image
             source={item.image}
             style={{
               width: "100%",
-              height: item.height || 200,
+              height: imageHeight,
             }}
             resizeMode="cover"
           />
 
-          <View className="p-2">
-            <View className="flex-row justify-between items-center mb-1">
-              <View className="flex-row items-center">
-                <Image
-                  source={item.user?.avatar || require('@/assets/images/default-avatar.png')}
-                  className="rounded-full mr-2"
-                  resizeMode="cover"
-                  style={{
-                    width: 32,
-                    height: 32,
-                    // borderWidth: 1,
-                    // borderColor: "#E0E0E0",
-                  }}
-                />
-                <Text className="text-xs text-gray-600">
-                  {item.user?.username || "Usuário"}
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={(e) => toggleFavorite(item.id, e)}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-              >
-                <FontAwesome
-                  name={item.isFavorite ? "star" : "star-o"}
-                  size={18}
-                  color={item.isFavorite ? "#FFC107" : "#BDBDBD"}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              backgroundColor: "rgba(255,255,255,0.8)",
+              borderRadius: 20,
+              padding: 5,
+            }}
+            onPress={(e) => toggleFavorite(item.id, e)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <FontAwesome
+              name={item.isFavorite ? "star" : "star-o"}
+              size={16}
+              color={item.isFavorite ? "#FFC107" : "#777"}
+            />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
   };
 
+  const NewPostModal = () => (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => setModalVisible(false)}
+    >
+      <TouchableOpacity
+        style={{
+          flex: 1,
+          justifyContent: "flex-end",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+        activeOpacity={1}
+        onPress={() => setModalVisible(false)}
+      >
+        <View
+          style={{
+            backgroundColor: "white",
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            padding: 20,
+            paddingBottom: 40,
+          }}
+        >
+          <View style={{ alignItems: "center", marginBottom: 20 }}>
+            <View
+              style={{
+                width: 40,
+                height: 5,
+                backgroundColor: "#ddd",
+                borderRadius: 5,
+                marginBottom: 15,
+              }}
+            />
+            <Text className="text-lg font-bold">Nova Publicação</Text>
+          </View>
+
+          <TouchableOpacity
+            className="bg-gray-100 p-4 rounded-lg flex-row items-center mb-3"
+            onPress={() => {
+              setModalVisible(false);
+              // TODO: ir para a tela de criar nova publicação
+            }}
+          >
+            <FontAwesome name="camera" size={24} color="#333" />
+            <Text className="ml-3 text-base">Tirar uma foto</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="bg-gray-100 p-4 rounded-lg flex-row items-center"
+            onPress={() => {
+              setModalVisible(false);
+              // TODO: abrir a galeria
+            }}
+          >
+            <FontAwesome name="image" size={24} color="#333" />
+            <Text className="ml-3 text-base">Escolher da galeria</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </Modal>
+  );
+
+  const ColumnSelector = () => {
+    return (
+      <View className="rounded-full overflow-hidden border border-gray-300">
+        <TouchableOpacity
+          className="p-2"
+          onPress={() => {
+            if (numColumns === 1) changeColumnView(2);
+            else if (numColumns === 2) changeColumnView(3);
+            else changeColumnView(1);
+          }}
+        >
+          {numColumns === 1 ? (
+            <FontAwesome name="list" size={20} color="#333" />
+          ) : numColumns === 2 ? (
+            <MaterialIcons name="grid-view" size={20} color="#333" />
+          ) : (
+            <MaterialIcons name="grid-on" size={20} color="#333" />
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const columns = distributePostsByColumns(feed);
+
   return (
-    <View className="flex-1 bg-gray-100 pt-4">
-      <FlatList
-        data={feed}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+    <View className="flex-1 bg-white">
+      <View className="px-4 pt-3 pb-2">
+        <View className="flex-row items-center justify-between mb-2">
+          <ColumnSelector />
+
+          <View className="flex-row flex-1 justify-center space-x-2">
+            <TouchableOpacity
+              className={`px-4 py-2 rounded-full ${
+                activeTab === "for-you" ? "bg-black" : "bg-gray-200"
+              }`}
+              onPress={() => setActiveTab("for-you")}
+            >
+              <View className="flex-row items-center">
+                <Ionicons
+                  name="restaurant"
+                  size={16}
+                  color={activeTab === "for-you" ? "white" : "#333"}
+                  style={{ marginRight: 6 }}
+                />
+                <Text
+                  style={{ color: activeTab === "for-you" ? "white" : "#333" }}
+                  // className={`${
+                  //   activeTab === "for-you" ? "text-white" : "text-gray-800"
+                  // } font-medium`}
+                >
+                  for you
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className={`px-4 py-2 rounded-full ${
+                activeTab === "following" ? "bg-black" : "bg-gray-200"
+              }`}
+              onPress={() => setActiveTab("following")}
+            >
+              <View className="flex-row items-center">
+                <MaterialIcons
+                  name="favorite"
+                  size={16}
+                  color={activeTab === "following" ? "white" : "#333"}
+                  style={{ marginRight: 6 }}
+                />
+                <Text style={{ color: activeTab === "following" ? "white" : "#333" }}>
+                  following
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            className="ml-2 bg-gray-100 rounded-full p-2 border border-gray-300"
+            onPress={() => setModalVisible(true)}
+          >
+            <FontAwesome name="plus" size={20} color="#333" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Masonry layout como ScrollView */}
+      <ScrollView
         showsVerticalScrollIndicator={false}
-        numColumns={numColumns}
-        contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
-      />
+        contentContainerStyle={{ paddingHorizontal: numColumns === 3 ? 2 : 4 }}
+      >
+        <View className="flex-row" style={{ marginLeft: -2, marginRight: -2 }}>
+          {columns.map((column, columnIndex) => (
+            <View
+              key={`column-${columnIndex}`}
+              style={{
+                flex: 1,
+                padding: numColumns === 3 ? 2 : 4,
+              }}
+            >
+              {column.map((item) => renderPostItem(item))}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
+      <NewPostModal />
     </View>
   );
 }
