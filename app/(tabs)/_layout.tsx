@@ -7,7 +7,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#1e40af', // azul
+        tabBarActiveTintColor: '#6e11b0', // azul
         tabBarInactiveTintColor: '#6b7280', // cinza
         tabBarStyle: {
           backgroundColor: '#fff',
@@ -35,7 +35,7 @@ export default function TabLayout() {
         headerRight: () => (
           <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16 }}>
             <TouchableOpacity style={{ marginRight: 16 }}>
-              <FontAwesome5 name="bell" size={24} color="#FF6347" />
+              <FontAwesome5 name="bell" size={24} color="#6e11b0" />
             </TouchableOpacity>
           </View>
         ),

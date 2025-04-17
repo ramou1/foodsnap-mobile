@@ -65,7 +65,7 @@ export default function SettingsScreen() {
           {/* Campo Nome */}
           <Text className="text-gray-500 mb-1">Nome</Text>
           <TextInput
-            className="text-lg font-medium mb-4 border-2 border-gray-100 rounded-md p-2"
+            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
             value={name}
             onChangeText={setName}
             placeholder="Seu nome completo"
@@ -74,7 +74,7 @@ export default function SettingsScreen() {
           {/* Campo Usuário */}
           <Text className="text-gray-500 mb-1">Usuário</Text>
           <TextInput
-            className="text-lg font-medium mb-4 border-2 border-gray-100 rounded-md p-2"
+            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
             value={username}
             onChangeText={setUsername}
             placeholder="Seu nome de usuário"
@@ -84,7 +84,7 @@ export default function SettingsScreen() {
           {/* Campo Bio */}
           <Text className="text-gray-500 mb-1">Bio</Text>
           <TextInput
-            className="text-lg font-medium mb-4 border-2 border-gray-100 rounded-md p-2"
+            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
             value={bio}
             onChangeText={setBio}
             placeholder="Conte algo sobre você"
@@ -95,7 +95,7 @@ export default function SettingsScreen() {
           {/* Campo Email  */}
           <Text className="text-gray-500 mb-1">Email</Text>
           <TextInput
-            className="text-lg font-medium mb-4 border-2 border-gray-100 rounded-md p-2"
+            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
             value={email}
             onChangeText={setEmail}
             placeholder="Seu email"
@@ -106,7 +106,7 @@ export default function SettingsScreen() {
           {/* Campo Telefone */}
           <Text className="text-gray-500 mb-1">Telefone</Text>
           <TextInput
-            className="text-lg font-medium mb-4 border-2 border-gray-100 rounded-md p-2"
+            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
             value={phone}
             onChangeText={setPhone}
             placeholder="Seu telefone"
@@ -117,7 +117,7 @@ export default function SettingsScreen() {
 
         <View className="mt-4 mx-4 mb-8">
           <TouchableOpacity
-            className="bg-orange-500 py-3 rounded-lg items-center mb-3"
+            className="bg-violet-500 py-3 rounded-lg items-center mb-3"
             onPress={handleSave}
           >
             <Text className="text-white font-medium text-lg">update</Text>
