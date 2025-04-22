@@ -106,6 +106,10 @@ export default function FeedScreen() {
               backgroundColor: "rgba(255,255,255,0.8)",
               borderRadius: 20,
               padding: 5,
+              width: 30,
+              height: 30,
+              justifyContent: "center",
+              alignItems: "center",
             }}
             onPress={(e) => toggleFavorite(item.id, e)}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -113,7 +117,7 @@ export default function FeedScreen() {
             <FontAwesome
               name={item.isFavorite ? "star" : "star-o"}
               size={16}
-              color={item.isFavorite ? "#FFC107" : "#777"}
+              color={item.isFavorite ? "#A020F0" : "#777"}
             />
           </TouchableOpacity>
         </View>
@@ -187,7 +191,7 @@ export default function FeedScreen() {
 
   const ColumnSelector = () => {
     return (
-      <View className="rounded-full overflow-hidden border border-gray-300">
+      <View className="rounded-full overflow-hidden border border-gray-300 w-[35px] h-[35px] items-center justify-center">
         <TouchableOpacity
           className="p-2"
           onPress={() => {
@@ -232,9 +236,6 @@ export default function FeedScreen() {
                 />
                 <Text
                   style={{ color: activeTab === "for-you" ? "white" : "#333" }}
-                  // className={`${
-                  //   activeTab === "for-you" ? "text-white" : "text-gray-800"
-                  // } font-medium`}
                 >
                   for you
                 </Text>
@@ -242,7 +243,7 @@ export default function FeedScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              className={`px-4 py-2 rounded-full ${
+              className={`px-4 py-2 ml-2 rounded-full ${
                 activeTab === "following" ? "bg-black" : "bg-gray-200"
               }`}
               onPress={() => setActiveTab("following")}
@@ -262,10 +263,10 @@ export default function FeedScreen() {
           </View>
 
           <TouchableOpacity
-            className="ml-2 bg-gray-100 rounded-full p-2 border border-gray-300"
+            className="ml-2 rounded-full p-2 border border-gray-300 w-[35px] h-[35px] items-center justify-center"
             onPress={() => setModalVisible(true)}
           >
-            <FontAwesome name="plus" size={20} color="#333" />
+            <FontAwesome name="plus" size={18} color="#333" />
           </TouchableOpacity>
         </View>
       </View>

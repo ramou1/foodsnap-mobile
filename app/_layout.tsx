@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import "../global.css";
@@ -9,7 +9,6 @@ import { AppWrapper } from "@/components/AppWrapper";
 
 export default function RootLayout() {
   const router = useRouter();
-
   const fontsLoaded = useCustomFonts();
 
   if (!fontsLoaded) return null;
@@ -36,7 +35,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="posts/[id]"
           options={{
-            headerTitle: "detalhes da publicação",
+            headerShown: false,
             presentation: "card",
             animation: "slide_from_right",
           }}

@@ -5,7 +5,6 @@ import { ImageSourcePropType } from 'react-native';
 export const POSTS: Post[] = [
   {
     id: '1',
-    title: 'Margherita',
     image: require('../assets/images/food01.png'),
     isFavorite: true,
     user: {
@@ -19,7 +18,6 @@ export const POSTS: Post[] = [
   },
   {
     id: '2',
-    title: 'My Breakfast',
     image: require('../assets/images/food02.jpg'),
     isFavorite: false,
     user: {
@@ -33,7 +31,6 @@ export const POSTS: Post[] = [
   },
   {
     id: '3',
-    title: 'Janta de Hoje',
     image: require('../assets/images/food03.jpg'),
     isFavorite: false,
     user: {
@@ -47,7 +44,6 @@ export const POSTS: Post[] = [
   },
   {
     id: '4',
-    title: 'Salad',
     image: require('../assets/images/food04.jpg'),
     isFavorite: true,
     user: {
@@ -61,7 +57,6 @@ export const POSTS: Post[] = [
   },
   {
     id: '5',
-    title: 'Cake',
     image: require('../assets/images/food05.jpg'),
     isFavorite: false,
     user: {
@@ -75,7 +70,6 @@ export const POSTS: Post[] = [
   },
   {
     id: '6',
-    title: '',
     image: require('../assets/images/food06.jpg'),
     isFavorite: true,
     user: {
