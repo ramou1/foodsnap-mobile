@@ -16,7 +16,9 @@ export default function ProfileScreen() {
     require("../../assets/images/default-avatar.png")
   );
   const screenWidth = Dimensions.get("window").width;
-  const imageSize = screenWidth / 3 - 4;
+  // const imageSize = screenWidth / 3 - 4;
+  const imageWidth = screenWidth / 3 - 4;
+  const imageHeight = imageWidth * 1.5;
 
   // Dados do usuário (mockados)
   const userData = {
@@ -49,16 +51,11 @@ export default function ProfileScreen() {
       id: "4",
       title: "BBQ",
       image: require("../../assets/images/default-image.jpg"),
-    },
-    {
-      id: "5",
-      title: "Fitness",
-      image: require("../../assets/images/default-image.jpg"),
-    },
+    }
   ];
 
   // Posts mockados
-  const posts = Array(11)
+  const posts = Array(9)
     .fill(null)
     .map((_, index) => ({
       id: '1',
@@ -182,11 +179,10 @@ export default function ProfileScreen() {
               key={post.id}
               className="p-0.5"
               onPress={() => navigateToPostDetail(post)}
-              // onPress={() => router.push(`/post/${post.id}`)}
             >
               <Image
                 source={post.image}
-                style={{ width: imageSize, height: imageSize }}
+                style={{ width: imageWidth, height: imageHeight }}
               />
             </TouchableOpacity>
           ))}

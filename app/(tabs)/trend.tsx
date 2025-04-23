@@ -36,29 +36,29 @@ export default function TrendsScreen() {
       isFavorite: any;
     },
     customWidth: number = COLUMN_WIDTH,
-    customHeight: number = 140
+    customHeight: number = 220
   ) => {
     return (
       <View
         key={item.id}
         className="mb-2 rounded-lg overflow-hidden bg-white shadow-sm"
-        style={{ 
-          height: customHeight, 
-          width: customWidth, 
-          marginBottom: GAP 
+        style={{
+          height: customHeight,
+          width: customWidth,
+          marginBottom: GAP,
         }}
       >
         <Image
-          source={{ uri: item.image }}
+          source={item.image}
           className="absolute w-full h-full"
           style={{ width: customWidth, height: customHeight }}
           resizeMode="cover"
         />
-        <View className="absolute inset-0 bg-black/30" />
+        <View className="absolute inset-0 bg-black/40" />
 
         <View className="flex-1 p-3 justify-between">
           <View className="flex-row justify-between">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => toggleFavorite(item.id)}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
@@ -81,21 +81,13 @@ export default function TrendsScreen() {
   };
 
   const ensuredTrends = [...trends];
-  while (ensuredTrends.length < 10) {
-    ensuredTrends.push(...trends.slice(0, Math.min(10 - ensuredTrends.length, trends.length)));
-  }
 
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="dark" />
 
-      <View className="py-4 px-4 bg-white border-b border-gray-100">
-        <Text className="text-2xl font-bold text-gray-800">Tendências</Text>
-        <Text className="text-gray-500">Descubra o que está em alta</Text>
-      </View>
-
-      <ScrollView 
-        className="flex-1" 
+      <ScrollView
+        className="flex-1"
         contentContainerStyle={{ padding: 12 }}
         showsVerticalScrollIndicator={false}
       >
@@ -104,30 +96,23 @@ export default function TrendsScreen() {
           <View>{renderTrendCard(ensuredTrends[1])}</View>
         </View>
 
-        <View>
-          {renderTrendCard(ensuredTrends[2], width - 24, 180)}
-        </View>
+        <View>{renderTrendCard(ensuredTrends[2], width - 24, 180)}</View>
 
         <View className="flex-row justify-between">
-          <View>{renderTrendCard(ensuredTrends[3])}</View>
-          <View>{renderTrendCard(ensuredTrends[4])}</View>
-        </View>
-
-        <View className="flex-row justify-between">
+          <View>
+            {renderTrendCard(ensuredTrends[3], (width - 24 - GAP * 2) / 3, 120)}
+          </View>
+          <View>
+            {renderTrendCard(ensuredTrends[4], (width - 24 - GAP * 2) / 3, 120)}
+          </View>
           <View>
             {renderTrendCard(ensuredTrends[5], (width - 24 - GAP * 2) / 3, 120)}
           </View>
-          <View>
-            {renderTrendCard(ensuredTrends[6], (width - 24 - GAP * 2) / 3, 120)}
-          </View>
-          <View>
-            {renderTrendCard(ensuredTrends[7], (width - 24 - GAP * 2) / 3, 120)}
-          </View>
         </View>
 
-        <View className="flex-row justify-between mb-4">
-          <View>{renderTrendCard(ensuredTrends[8])}</View>
-          <View>{renderTrendCard(ensuredTrends[9])}</View>
+        <View className="flex-row justify-between">
+          <View>{renderTrendCard(ensuredTrends[6])}</View>
+          <View>{renderTrendCard(ensuredTrends[7])}</View>
         </View>
       </ScrollView>
     </View>

@@ -97,29 +97,6 @@ export default function FeedScreen() {
             }}
             resizeMode="cover"
           />
-
-          <TouchableOpacity
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              backgroundColor: "rgba(255,255,255,0.8)",
-              borderRadius: 20,
-              padding: 5,
-              width: 30,
-              height: 30,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={(e) => toggleFavorite(item.id, e)}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <FontAwesome
-              name={item.isFavorite ? "star" : "star-o"}
-              size={16}
-              color={item.isFavorite ? "#A020F0" : "#777"}
-            />
-          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );

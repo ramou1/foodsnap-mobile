@@ -91,7 +91,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-05T11:00:00',
     likes: 92,
     comments: 12,
-    description: 'Hambúrguer vegano com grão-de-bico, abacate e molho especial. Uma explosão de sabores!',
+    description: 'carbonara',
   },
   {
     id: '8',
@@ -130,7 +130,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-02T09:30:00',
     likes: 300,
     comments: 50,
-    description: 'Bolo de chocolate com cobertura de ganache. Uma explosão de sabor!',
+    description: 'pizza meia frango com catupiry e meia calabresa',
   },
   {
     id: '11',
@@ -143,7 +143,6 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T13:15:00',
     likes: 400,
     comments: 60,
-    description: 'Churrasco com amigos!',
   },
   {
     id: '12',
@@ -196,5 +195,44 @@ export const POSTS: Post[] = [
     likes: 800,
     comments: 100,
     description: 'Macarrão com queijo cremoso. O conforto em forma de comida!',
+  },
+  {
+    id: '16',
+    image: require('../assets/images/food16.jpg'),
+    isFavorite: true,
+    user: {
+      username: 'foodie_adventures',
+      avatar: require('../assets/images/default-avatar.png'),
+    },
+    timestamp: '2025-04-01T22:00:00',
+    likes: 900,
+    comments: 110,
+    description: 'guioza',
+  },
+  {
+    id: '17',
+    image: require('../assets/images/food17.jpg'),
+    isFavorite: false,
+    user: {
+      username: 'snack_time',
+      avatar: require('../assets/images/default-avatar.png'),
+    },
+    timestamp: '2025-04-01T23:00:00',
+    likes: 1000,
+    comments: 120,
+    description: 'pizza boa dms',
+  },
+  {
+    id: '18',
+    image: require('../assets/images/food18.jpg'),
+    isFavorite: true,
+    user: {
+      username: 'culinary_explorer',
+      avatar: require('../assets/images/default-avatar.png'),
+    },
+    timestamp: '2025-04-01T21:00:00',
+    likes: 1100,
+    comments: 130,
+    description: 'petit gateau',
   },
 ];
