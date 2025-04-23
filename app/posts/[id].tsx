@@ -84,7 +84,7 @@ export default function PostDetailScreen() {
 
       <ScrollView className="flex-1">
         {/* Cabeçalho absoluto sobre a imagem */}
-        <View className="absolute top-0 left-0 right-0 z-10 flex-row justify-between items-center px-4 pt-[2rem] pb-2">
+        <View className="absolute top-0 left-0 right-0 z-10 flex-row justify-between items-center px-4 pt-12 pb-2">
           <TouchableOpacity 
             onPress={() => router.back()}
             className="bg-black/30 rounded-full p-2 w-[40px] h-[40px] justify-center items-center"

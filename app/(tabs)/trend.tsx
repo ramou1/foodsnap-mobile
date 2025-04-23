@@ -70,8 +70,8 @@ export default function TrendsScreen() {
             </TouchableOpacity>
           </View>
 
-          <View className="bg-blue-500 px-3 py-1 absolute bottom-3 left-3 rounded-md">
-            <Text className="text-[10px] font-bold text-white uppercase">
+          <View className="bg-[#6e11b0] px-3 py-1 absolute bottom-3 left-3 rounded-md">
+            <Text className="text-[12px] text-center font-bold text-white lowercase">
               {item.category}
             </Text>
           </View>
