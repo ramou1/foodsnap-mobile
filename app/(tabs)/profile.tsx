@@ -9,6 +9,7 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
+import { Post } from "@/types/post";
 
 export default function ProfileScreen() {
   const [avatar] = React.useState(
@@ -57,12 +58,28 @@ export default function ProfileScreen() {
   ];
 
   // Posts mockados
-  const posts = Array(12)
+  const posts = Array(11)
     .fill(null)
     .map((_, index) => ({
-      id: index.toString(),
-      image: require("../../assets/images/food01.png"),
+      id: '1',
+      image: require("../../assets/images/food01.jpg"),
+      isFavorite: false,
+      description: "Delicious food",
+      user: {
+        username: "foodlover_123",
+        avatar: require("../../assets/images/default-avatar.png"),
+      },
+      timestamp: "2023-10-01T12:00:00Z",
+      likes: 100,
+      comments: 10,
     }));
+
+  const navigateToPostDetail = (post: Post) => {
+    router.push({
+      pathname: "/posts/[id]",
+      params: { id: post.id },
+    });
+  };
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -116,9 +133,7 @@ export default function ProfileScreen() {
             >
               <Text className="text-center font-medium">edit profile</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="bg-violet-200 rounded-md py-2 mt-3 mb-4 w-[49%]"
-            >
+            <TouchableOpacity className="bg-violet-200 rounded-md py-2 mt-3 mb-4 w-[49%]">
               <Text className="text-center font-medium">share</Text>
             </TouchableOpacity>
           </View>
@@ -166,6 +181,7 @@ export default function ProfileScreen() {
             <TouchableOpacity
               key={post.id}
               className="p-0.5"
+              onPress={() => navigateToPostDetail(post)}
               // onPress={() => router.push(`/post/${post.id}`)}
             >
               <Image
