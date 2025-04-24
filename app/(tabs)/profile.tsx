@@ -10,6 +10,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Post } from "@/types/post";
+import { USER } from "@/mocks/user";
 
 export default function ProfileScreen() {
   const [avatar] = React.useState(
@@ -21,55 +22,9 @@ export default function ProfileScreen() {
   const imageHeight = imageWidth * 1.5;
 
   // Dados do usuário (mockados)
-  const userData = {
-    username: "foodlover_123",
-    name: "Fulano de Tal",
-    bio: "Amante da boa comida 🍝🍣🍕\nChef amador | Fotógrafo gastronômico",
-    posts: 42,
-    followers: 980,
-    following: 280,
-  };
-
-  // Destaques
-  const highlights = [
-    {
-      id: "1",
-      title: "Massas",
-      image: require("../../assets/images/default-image.jpg"),
-    },
-    {
-      id: "2",
-      title: "Doces",
-      image: require("../../assets/images/default-image.jpg"),
-    },
-    {
-      id: "3",
-      title: "Asiática",
-      image: require("../../assets/images/default-image.jpg"),
-    },
-    {
-      id: "4",
-      title: "BBQ",
-      image: require("../../assets/images/default-image.jpg"),
-    }
-  ];
-
-  // Posts mockados
-  const posts = Array(9)
-    .fill(null)
-    .map((_, index) => ({
-      id: '1',
-      image: require("../../assets/images/food01.jpg"),
-      isFavorite: false,
-      description: "Delicious food",
-      user: {
-        username: "foodlover_123",
-        avatar: require("../../assets/images/default-avatar.png"),
-      },
-      timestamp: "2023-10-01T12:00:00Z",
-      likes: 100,
-      comments: 10,
-    }));
+  const userData = USER;
+  const highlights = userData.highlights || [];
+  const posts = userData.postsList || [];
 
   const navigateToPostDetail = (post: Post) => {
     router.push({

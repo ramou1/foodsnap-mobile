@@ -1,6 +1,4 @@
 import { Post } from '@/types/post';
-import { ImageSourcePropType } from 'react-native';
-
 
 export const POSTS: Post[] = [
   {
@@ -8,6 +6,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food01.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j21',
       username: 'maria_cozinha',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -21,6 +20,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food02.jpg'),
     isFavorite: false,
     user: {
+      id: '73j22',
       username: 'health_food',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -34,6 +34,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food03.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j23',
       username: 'chef_carlos',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -46,6 +47,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food04.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j24',
       username: 'fit_meals',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -59,6 +61,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food05.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j25',
       username: 'sweet_confections',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -72,6 +75,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food06.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j26',
       username: 'anonymous_chef',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -85,6 +89,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food07.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j27',
       username: 'vegan_delights',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -98,6 +103,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food08.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j28',
       username: 'italian_cuisine',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -111,6 +117,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food09.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j29',
       username: 'sushi_master',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -124,6 +131,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food10.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j30',
       username: 'dessert_lover',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -137,6 +145,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food11.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j31',
       username: 'grill_master',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -149,6 +158,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food12.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j32',
       username: 'baker',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -162,6 +172,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food13.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j33',
       username: 'spicy_foods',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -175,6 +186,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food14.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j34',
       username: 'seafood_lover',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -188,6 +200,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food15.png'),
     isFavorite: false,
     user: {
+      id: 'i3j35',
       username: 'comfort_food',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -201,6 +214,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food16.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j36',
       username: 'foodie_adventures',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -214,6 +228,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food17.jpg'),
     isFavorite: false,
     user: {
+      id: 'i3j37',
       username: 'snack_time',
       avatar: require('../assets/images/default-avatar.png'),
     },
@@ -227,6 +242,7 @@ export const POSTS: Post[] = [
     image: require('../assets/images/food18.jpg'),
     isFavorite: true,
     user: {
+      id: 'i3j38',
       username: 'culinary_explorer',
       avatar: require('../assets/images/default-avatar.png'),
     },
