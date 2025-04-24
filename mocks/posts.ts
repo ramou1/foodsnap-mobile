@@ -4,7 +4,6 @@ export const POSTS: Post[] = [
   {
     id: '1',
     image: require('../assets/images/food01.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j21',
       username: 'maria_cozinha',
@@ -18,7 +17,6 @@ export const POSTS: Post[] = [
   {
     id: '2',
     image: require('../assets/images/food02.jpg'),
-    isFavorite: false,
     user: {
       id: '73j22',
       username: 'health_food',
@@ -32,7 +30,7 @@ export const POSTS: Post[] = [
   {
     id: '3',
     image: require('../assets/images/food03.jpg'),
-    isFavorite: false,
+    reposted: true,
     user: {
       id: 'i3j23',
       username: 'chef_carlos',
@@ -45,7 +43,6 @@ export const POSTS: Post[] = [
   {
     id: '4',
     image: require('../assets/images/food04.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j24',
       username: 'fit_meals',
@@ -59,7 +56,6 @@ export const POSTS: Post[] = [
   {
     id: '5',
     image: require('../assets/images/food05.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j25',
       username: 'sweet_confections',
@@ -73,7 +69,7 @@ export const POSTS: Post[] = [
   {
     id: '6',
     image: require('../assets/images/food06.jpg'),
-    isFavorite: true,
+    reposted: true,
     user: {
       id: 'i3j26',
       username: 'anonymous_chef',
@@ -87,7 +83,6 @@ export const POSTS: Post[] = [
   {
     id: '7',
     image: require('../assets/images/food07.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j27',
       username: 'vegan_delights',
@@ -101,7 +96,6 @@ export const POSTS: Post[] = [
   {
     id: '8',
     image: require('../assets/images/food08.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j28',
       username: 'italian_cuisine',
@@ -115,7 +109,6 @@ export const POSTS: Post[] = [
   {
     id: '9',
     image: require('../assets/images/food09.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j29',
       username: 'sushi_master',
@@ -129,7 +122,6 @@ export const POSTS: Post[] = [
   {
     id: '10',
     image: require('../assets/images/food10.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j30',
       username: 'dessert_lover',
@@ -143,7 +135,6 @@ export const POSTS: Post[] = [
   {
     id: '11',
     image: require('../assets/images/food11.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j31',
       username: 'grill_master',
@@ -156,7 +147,6 @@ export const POSTS: Post[] = [
   {
     id: '12',
     image: require('../assets/images/food12.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j32',
       username: 'baker',
@@ -170,7 +160,6 @@ export const POSTS: Post[] = [
   {
     id: '13',
     image: require('../assets/images/food13.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j33',
       username: 'spicy_foods',
@@ -184,7 +173,6 @@ export const POSTS: Post[] = [
   {
     id: '14',
     image: require('../assets/images/food14.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j34',
       username: 'seafood_lover',
@@ -198,7 +186,6 @@ export const POSTS: Post[] = [
   {
     id: '15',
     image: require('../assets/images/food15.png'),
-    isFavorite: false,
     user: {
       id: 'i3j35',
       username: 'comfort_food',
@@ -212,7 +199,6 @@ export const POSTS: Post[] = [
   {
     id: '16',
     image: require('../assets/images/food16.jpg'),
-    isFavorite: true,
     user: {
       id: 'i3j36',
       username: 'foodie_adventures',
@@ -226,7 +212,6 @@ export const POSTS: Post[] = [
   {
     id: '17',
     image: require('../assets/images/food17.jpg'),
-    isFavorite: false,
     user: {
       id: 'i3j37',
       username: 'snack_time',
@@ -240,7 +225,7 @@ export const POSTS: Post[] = [
   {
     id: '18',
     image: require('../assets/images/food18.jpg'),
-    isFavorite: true,
+    reposted: true,
     user: {
       id: 'i3j38',
       username: 'culinary_explorer',

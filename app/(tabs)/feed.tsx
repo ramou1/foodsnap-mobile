@@ -31,11 +31,11 @@ export default function FeedScreen() {
     setFeed(preparedData);
   }, []);
 
-  const toggleFavorite = (id: string, event: any) => {
+  const toggleRepost = (id: string, event: any) => {
     event.stopPropagation();
     setFeed(
       feed.map((item) =>
-        item.id === id ? { ...item, isFavorite: !item.isFavorite } : item
+        item.id === id ? { ...item, reposted: !item.reposted } : item
       )
     );
   };
@@ -54,7 +54,7 @@ export default function FeedScreen() {
   const distributePostsByColumns = (posts: Post[]) => {
     const filteredPosts =
       activeTab === "following"
-        ? posts.filter((item) => item.isFavorite)
+        ? posts.filter((item) => item.reposted)
         : posts;
 
     const columns: Post[][] = Array.from({ length: numColumns }, () => []);

@@ -20,7 +20,7 @@ export default function PostDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isRepost, setisRepost] = useState(false);
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -33,13 +33,13 @@ export default function PostDetailScreen() {
     const foundPost = POSTS.find((item) => item.id === id);
     if (foundPost) {
       setPost(foundPost);
-      setIsFavorite(foundPost.isFavorite);
+      setisRepost(foundPost.reposted || false);
       setLikes(foundPost.likes || 0);
     }
   }, [id]);
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const toggleRepost = () => {
+    setisRepost(!isRepost);
     // Aqui poderia ter uma lógica para atualizar o estado global ou fazer uma chamada API
   };
 
@@ -93,13 +93,13 @@ export default function PostDetailScreen() {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            onPress={toggleFavorite} 
+            onPress={toggleRepost} 
             className="bg-black/30 rounded-full p-2 w-[40px] h-[40px] justify-center items-center"
           >
             <FontAwesome
-              name={isFavorite ? "star" : "star-o"}
+              name={isRepost ? "retweet" : "retweet"}
               size={22}
-              color={isFavorite ? "#FFC107" : "#FFF"}
+              color={isRepost ? "#FFC107" : "#FFF"}
             />
           </TouchableOpacity>
         </View>

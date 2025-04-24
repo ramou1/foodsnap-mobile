@@ -87,7 +87,6 @@ export default function CreatePostScreen() {
         id: (POSTS.length + 1).toString(),
         title: title,
         image: { uri: image }, // Convertemos a URI para o formato compatível com ImageSourcePropType
-        isFavorite: false,
       };
 
       // Simular a adição ao array de posts (isso não persistirá entre sessões)

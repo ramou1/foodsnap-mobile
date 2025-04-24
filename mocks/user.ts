@@ -6,7 +6,7 @@ export const USER: User = {
     name: 'Maria Cozinha',
     bio: 'Amo cozinhar e compartilhar receitas deliciosas! 🍝🍣🍕',
     avatar: require('../assets/images/default-avatar.png'),
-    posts: 6,
+    posts: 8,
     followers: 230,
     following: 200,
     isFollowing: false,
@@ -15,7 +15,6 @@ export const USER: User = {
         {
             id: '1',
             image: require('../assets/images/food01.jpg'),
-            isFavorite: true,
             user: {
                 id: 'i3j21',
                 username: 'maria_cozinha',
@@ -29,10 +28,9 @@ export const USER: User = {
         {
             id: '2',
             image: require('../assets/images/food02.jpg'),
-            isFavorite: false,
             user: {
-                id: '73j22',
-                username: 'health_food',
+                id: 'i3j21',
+                username: 'maria_cozinha',
                 avatar: require('../assets/images/default-avatar.png'),
             },
             timestamp: '2025-04-10T08:15:00',
@@ -44,7 +42,7 @@ export const USER: User = {
         {
             id: '3',
             image: require('../assets/images/food03.jpg'),
-            isFavorite: false,
+            reposted: true,
             user: {
                 id: 'i3j23',
                 username: 'chef_carlos',
@@ -57,7 +55,7 @@ export const USER: User = {
         {
             id: '4',
             image: require('../assets/images/food04.jpg'),
-            isFavorite: true,
+            reposted: true,
             user: {
                 id: 'i3j24',
                 username: 'fit_meals',
@@ -72,10 +70,9 @@ export const USER: User = {
         {
             id: '5',
             image: require('../assets/images/food05.jpg'),
-            isFavorite: false,
             user: {
-                id: 'i3j25',
-                username: 'vegan_delights',
+                id: 'i3j21',
+                username: 'maria_cozinha',
                 avatar: require('../assets/images/default-avatar.png'),
             },
             timestamp: '2025-04-07T18:00:00',
@@ -85,7 +82,7 @@ export const USER: User = {
         {
             id: '6',
             image: require('../assets/images/food06.jpg'),
-            isFavorite: true,
+            reposted: true,
             user: {
                 id: 'i3j26',
                 username: 'sweet_tooth',
@@ -94,7 +91,31 @@ export const USER: User = {
             timestamp: '2025-04-06T10:30:00',
             likes: 150,
             comments: 20,
-        }
+        },
+        {
+            id: '7',
+            image: require('../assets/images/food07.jpg'),
+            user: {
+                id: 'i3j21',
+                username: 'maria_cozinha',
+                avatar: require('../assets/images/default-avatar.png'),
+            },
+            timestamp: '2025-04-05T15:45:00',
+            likes: 78,
+            comments: 5,
+        },
+        {
+            id: '8',
+            image: require('../assets/images/food08.jpg'),
+            user: {
+                id: 'i3j21',
+                username: 'maria_cozinha',
+                avatar: require('../assets/images/default-avatar.png'),
+            },
+            timestamp: '2025-04-04T11:00:00',
+            likes: 120,
+            comments: 15,
+        },
     ],
     highlights: [
         {

@@ -19,7 +19,7 @@ export interface Post {
   id: string;
   title?: string;
   image: ImageSourcePropType;
-  isFavorite: boolean;
+  reposted?: boolean;
   height?: number;
   user: User | null;
   timestamp?: string;

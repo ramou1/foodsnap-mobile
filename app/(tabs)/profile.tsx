@@ -6,7 +6,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Post } from "@/types/post";
@@ -121,10 +121,26 @@ export default function ProfileScreen() {
               className="p-0.5"
               onPress={() => navigateToPostDetail(post)}
             >
-              <Image
-                source={post.image}
-                style={{ width: imageWidth, height: imageHeight }}
-              />
+              <View style={{ position: "relative" }}>
+                <Image
+                  source={post.image}
+                  style={{ width: imageWidth, height: imageHeight }}
+                />
+                {post.reposted && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: 5,
+                      right: 5,
+                      backgroundColor: "rgba(0,0,0,0.3)",
+                      borderRadius: 10,
+                      padding: 3,
+                    }}
+                  >
+                    <FontAwesome name="retweet" size={15} color="#FFFFFF" />
+                  </View>
+                )}
+              </View>
             </TouchableOpacity>
           ))}
         </View>
