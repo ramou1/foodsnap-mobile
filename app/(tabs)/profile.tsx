@@ -112,20 +112,6 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             ))}
           </ScrollView>
-
-          <View className="h-0.5 bg-gray-200" />
-
-          <View className="flex-row justify-around py-2">
-            <TouchableOpacity className="p-2">
-              <FontAwesome5 name="th" size={20} color="#000" />
-            </TouchableOpacity>
-            <TouchableOpacity className="p-2">
-              <FontAwesome5 name="play-circle" size={20} color="#999" />
-            </TouchableOpacity>
-            <TouchableOpacity className="p-2">
-              <FontAwesome5 name="bookmark" size={20} color="#999" />
-            </TouchableOpacity>
-          </View>
         </View>
 
         <View className="flex-row flex-wrap bg-white">
