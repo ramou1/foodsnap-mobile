@@ -60,15 +60,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="camera"
-        options={{
-          title: 'Postar',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="camera" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           title: 'profile',

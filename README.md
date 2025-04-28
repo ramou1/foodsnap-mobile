@@ -1,6 +1,6 @@
 # FoodSnap Mobile
 
-Este é o repositório do aplicativo mobile FoodSnap, desenvolvido com React Native v0.76.8, Expo v~52.0.42 e Native Wind. O FoodSnap é uma aplicação que permite aos usuários explorar e compartilhar experiências gastronômicas.
+Este é o repositório do aplicativo mobile FoodSnap, desenvolvido com React Native v0.76.8, Expo v~52.0.42 e Native Wind. Essa aplicação permitirá aos usuários postar fotos apenas de comidas afim de explorar novos sabores, conhecer novos pratos e compartilhar experiências gastronômicas.
 
 ## Estrutura do Projeto
 

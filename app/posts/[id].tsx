@@ -143,7 +143,7 @@ export default function PostDetailScreen() {
 
           {/* Descrição do post */}
           <Text className="text-gray-700 text-base mb-6">
-            {post.description || "Uma deliciosa refeição!"}
+            {post.caption || "Uma deliciosa refeição!"}
           </Text>
 
           {/* Barra de ações */}

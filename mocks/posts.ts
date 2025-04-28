@@ -12,7 +12,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-09T14:30:00',
     likes: 124,
     comments: 18,
-    description: 'Filé a milanesa com risoto.',
+    caption: 'Filé a milanesa com risoto.',
   },
   {
     id: '2',
@@ -25,7 +25,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-10T08:15:00',
     likes: 87,
     comments: 9,
-    description: 'ovo mexido torradinha com tomate e café preto',
+    caption: 'ovo mexido torradinha com tomate e café preto',
   },
   {
     id: '3',
@@ -51,7 +51,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-08T12:20:00',
     likes: 65,
     comments: 7,
-    description: 'Salada mediterrânea com folhas frescas, tomate cereja, pepino, azeitonas e queijo feta. Perfeito para um almoço leve!',
+    caption: 'Salada mediterrânea com folhas frescas, tomate cereja, pepino, azeitonas e queijo feta. Perfeito para um almoço leve!',
   },
   {
     id: '5',
@@ -64,7 +64,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-07T16:10:00',
     likes: 345,
     comments: 41,
-    description: 'Lanchinho de filé',
+    caption: 'Lanchinho de filé',
   },
   {
     id: '6',
@@ -78,7 +78,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-06T19:30:00',
     likes: 178,
     comments: 22,
-    description: 'BK',
+    caption: 'BK',
   },
   {
     id: '7',
@@ -91,7 +91,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-05T11:00:00',
     likes: 92,
     comments: 12,
-    description: 'carbonara',
+    caption: 'carbonara',
   },
   {
     id: '8',
@@ -104,7 +104,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-04T14:00:00',
     likes: 150,
     comments: 20,
-    description: 'poke',
+    caption: 'poke',
   },
   {
     id: '9',
@@ -117,7 +117,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-03T17:45:00',
     likes: 220,
     comments: 30,
-    description: 'café da manhã',
+    caption: 'café da manhã',
   },
   {
     id: '10',
@@ -130,7 +130,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-02T09:30:00',
     likes: 300,
     comments: 50,
-    description: 'pizza meia frango com catupiry e meia calabresa',
+    caption: 'pizza meia frango com catupiry e meia calabresa',
   },
   {
     id: '11',
@@ -155,7 +155,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T10:00:00',
     likes: 500,
     comments: 70,
-    description: 'Pão caseiro quentinho saindo do forno. O cheiro é irresistível!',
+    caption: 'Pão caseiro quentinho saindo do forno. O cheiro é irresistível!',
   },
   {
     id: '13',
@@ -168,7 +168,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T15:30:00',
     likes: 600,
     comments: 80,
-    description: 'crepiroka de carne moida',
+    caption: 'crepiroka de carne moida',
   },
   {
     id: '14',
@@ -181,7 +181,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T18:00:00',
     likes: 700,
     comments: 90,
-    description: 'iogurte caseiro com granola e banana no pote do aristogatas 🤟',
+    caption: 'iogurte caseiro com granola e banana no pote do aristogatas 🤟',
   },
   {
     id: '15',
@@ -194,7 +194,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T20:00:00',
     likes: 800,
     comments: 100,
-    description: 'Macarrão com queijo cremoso. O conforto em forma de comida!',
+    caption: 'Macarrão com queijo cremoso. O conforto em forma de comida!',
   },
   {
     id: '16',
@@ -207,7 +207,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T22:00:00',
     likes: 900,
     comments: 110,
-    description: 'guioza',
+    caption: 'guioza',
   },
   {
     id: '17',
@@ -220,7 +220,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T23:00:00',
     likes: 1000,
     comments: 120,
-    description: 'pizza boa dms',
+    caption: 'pizza boa dms',
   },
   {
     id: '18',
@@ -234,6 +234,6 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-01T21:00:00',
     likes: 1100,
     comments: 130,
-    description: 'petit gateau',
+    caption: 'petit gateau',
   },
 ];

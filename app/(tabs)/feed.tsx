@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { POSTS } from "@/mocks/posts";
 import { useRouter } from "expo-router";
 import { Post } from "@/types/post";
+import SearchModal from "@/components/SearchModal";
+import React from "react";
 
 const { width } = Dimensions.get("window");
 
@@ -20,6 +22,7 @@ export default function FeedScreen() {
   const [numColumns, setNumColumns] = useState(3);
   const [modalVisible, setModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("for-you");
+  const [searchModalVisible, setSearchModalVisible] = React.useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -53,9 +56,7 @@ export default function FeedScreen() {
 
   const distributePostsByColumns = (posts: Post[]) => {
     const filteredPosts =
-      activeTab === "following"
-        ? posts.filter((item) => item.reposted)
-        : posts;
+      activeTab === "following" ? posts.filter((item) => item.reposted) : posts;
 
     const columns: Post[][] = Array.from({ length: numColumns }, () => []);
 
@@ -232,18 +233,26 @@ export default function FeedScreen() {
                   color={activeTab === "following" ? "white" : "#333"}
                   style={{ marginRight: 6 }}
                 />
-                <Text style={{ color: activeTab === "following" ? "white" : "#333" }}>
+                <Text
+                  style={{
+                    color: activeTab === "following" ? "white" : "#333",
+                  }}
+                >
                   following
                 </Text>
               </View>
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             className="ml-2 rounded-full p-2 border border-gray-300 w-[35px] h-[35px] items-center justify-center"
             onPress={() => setModalVisible(true)}
           >
             <FontAwesome name="plus" size={18} color="#333" />
+          </TouchableOpacity> */}
+
+          <TouchableOpacity onPress={() => setSearchModalVisible(true)}>
+            <Ionicons name="search" size={24} color="black" />
           </TouchableOpacity>
         </View>
       </View>
@@ -269,6 +278,11 @@ export default function FeedScreen() {
       </ScrollView>
 
       <NewPostModal />
+
+      <SearchModal
+        visible={searchModalVisible}
+        onClose={() => setSearchModalVisible(false)}
+      />
     </View>
   );
 }

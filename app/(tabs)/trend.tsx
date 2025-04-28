@@ -31,7 +31,7 @@ export default function TrendsScreen() {
       id: any;
       title: any;
       category: any;
-      description: any;
+      caption: any;
       image: any;
       isFavorite: any;
     },
