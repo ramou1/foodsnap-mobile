@@ -3,7 +3,6 @@ import { User } from './user';
 
 export interface Post {
   id: string;
-  title?: string;
   image: ImageSourcePropType;
   reposted?: boolean;
   height?: number;
@@ -12,4 +11,5 @@ export interface Post {
   likes?: number;
   comments?: number;
   caption?: string;
+  location?: string;
 }

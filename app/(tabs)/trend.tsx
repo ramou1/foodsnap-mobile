@@ -10,6 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { FontAwesome } from "@expo/vector-icons";
 import { FOOD_TRENDS } from "@/mocks/trends";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const GAP = 6;
@@ -83,9 +84,9 @@ export default function TrendsScreen() {
   const ensuredTrends = [...trends];
 
   return (
-    <View className="flex-1 bg-white">
+    <SafeAreaView edges={['top']} className="flex-1 bg-white">
       <StatusBar style="dark" />
-
+      
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ padding: 12 }}
@@ -115,6 +116,6 @@ export default function TrendsScreen() {
           <View>{renderTrendCard(ensuredTrends[7])}</View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

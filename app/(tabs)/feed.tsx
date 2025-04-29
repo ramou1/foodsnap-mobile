@@ -14,6 +14,8 @@ import { useRouter } from "expo-router";
 import { Post } from "@/types/post";
 import SearchModal from "@/components/SearchModal";
 import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -193,7 +195,8 @@ export default function FeedScreen() {
   const columns = distributePostsByColumns(feed);
 
   return (
-    <View className="flex-1 bg-white">
+    <SafeAreaView edges={['top']} className="flex-1 bg-white">
+      <StatusBar style="dark" />
       <View className="px-4 pt-3 pb-2">
         <View className="flex-row items-center justify-between mb-2">
           <ColumnSelector />
@@ -244,13 +247,6 @@ export default function FeedScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* <TouchableOpacity
-            className="ml-2 rounded-full p-2 border border-gray-300 w-[35px] h-[35px] items-center justify-center"
-            onPress={() => setModalVisible(true)}
-          >
-            <FontAwesome name="plus" size={18} color="#333" />
-          </TouchableOpacity> */}
-
           <TouchableOpacity onPress={() => setSearchModalVisible(true)}>
             <Ionicons name="search" size={24} color="black" />
           </TouchableOpacity>
@@ -283,6 +279,6 @@ export default function FeedScreen() {
         visible={searchModalVisible}
         onClose={() => setSearchModalVisible(false)}
       />
-    </View>
+    </SafeAreaView>
   );
 }

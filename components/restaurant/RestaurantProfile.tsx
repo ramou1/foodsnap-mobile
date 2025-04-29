@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -6,26 +7,36 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { router } from "expo-router";
-import React from "react";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import { RESTAURANTS } from "@/mocks/restaurants";
 import { Post } from "@/types/post";
-import { USER } from "@/mocks/user";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Restaurant } from "@/types/restaurant";
 
-export default function ProfileScreen() {
-  const [avatar] = React.useState(
-    require("../../assets/images/default-avatar.png")
-  );
+export default function RestaurantProfileScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const restaurant = RESTAURANTS.find((r) => r.id === id);
   const screenWidth = Dimensions.get("window").width;
   const imageWidth = screenWidth / 3 - 4;
   const imageHeight = imageWidth * 1.5;
 
-  // Dados do usuário (mockados)
-  const userData = USER;
-  const highlights = userData.highlights || [];
-  const posts = userData.postsList || [];
+  // If restaurant not found
+  if (!restaurant) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Restaurant not found</Text>
+        <TouchableOpacity
+          className="mt-4 bg-black px-6 py-2 rounded-md"
+          onPress={() => router.back()}
+        >
+          <Text className="text-white">Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const highlights = restaurant.highlights || [];
+  const posts = restaurant.postsList || [];
 
   const navigateToPostDetail = (post: Post) => {
     router.push({
@@ -35,13 +46,20 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-gray-100">
-      <StatusBar style="dark" />
+    <View className="flex-1 bg-gray-100">
+      {/* Header */}
+      <View className="bg-white px-4 py-3 flex-row items-center border-b border-gray-200">
+        <TouchableOpacity onPress={() => router.back()} className="mr-4">
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text className="text-xl font-bold">{restaurant.name}</Text>
+      </View>
+
       <ScrollView className="flex-1">
         <View className="bg-white px-4 pt-4">
           <View className="flex-row items-center">
             <Image
-              source={avatar}
+              source={restaurant.avatar}
               className="rounded-full border-2 border-gray-200"
               style={{
                 width: 86,
@@ -51,23 +69,25 @@ export default function ProfileScreen() {
 
             <View className="flex-1 ml-4">
               <Text className="text-xl font-bold mb-1">
-                {userData.username}
+                {restaurant.username}
               </Text>
 
               <View className="flex-row justify-between mt-2">
                 <View className="items-center">
-                  <Text className="font-bold text-base">{userData.posts}</Text>
+                  <Text className="font-bold text-base">
+                    {restaurant.posts}
+                  </Text>
                   <Text className="text-sm text-gray-500">posts</Text>
                 </View>
                 <View className="items-center">
                   <Text className="font-bold text-base">
-                    {userData.followers}
+                    {restaurant.followers}
                   </Text>
                   <Text className="text-sm text-gray-500">followers</Text>
                 </View>
                 <View className="items-center">
                   <Text className="font-bold text-base">
-                    {userData.following}
+                    {restaurant.following}
                   </Text>
                   <Text className="text-sm text-gray-500">following</Text>
                 </View>
@@ -76,29 +96,23 @@ export default function ProfileScreen() {
           </View>
 
           <View className="mt-3">
-            <Text className="font-medium">{userData.name}</Text>
-            <Text className="text-sm mt-1">{userData.bio}</Text>
+            <Text className="font-medium">{restaurant.name}</Text>
+            <Text className="text-sm mt-1">{restaurant.bio}</Text>
           </View>
 
           <View className="flex-row justify-between mt-4">
-            <TouchableOpacity
-              className="bg-gray-200 rounded-md py-2 mt-3 mb-4 w-[49%]"
-              onPress={() => router.push("/settings")}
-            >
-              <Text className="text-center font-medium">edit profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-violet-200 rounded-md py-2 mt-3 mb-4 w-[49%]">
-              <Text className="text-center font-medium">share</Text>
+            <TouchableOpacity className="bg-violet-500 rounded-md py-2 mt-3 mb-4 w-full">
+              <Text className="text-center font-medium text-white">Follow</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Destaques */}
+          {/* Highlights */}
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             className="pb-4"
           >
-            {highlights.map((highlight: any) => (
+            {highlights.map((highlight) => (
               <TouchableOpacity
                 key={highlight.id}
                 className="items-center mr-4"
@@ -117,7 +131,7 @@ export default function ProfileScreen() {
         </View>
 
         <View className="flex-row flex-wrap bg-white">
-          {posts.map((post: Post) => (
+          {posts.map((post) => (
             <TouchableOpacity
               key={post.id}
               className="p-0.5"
@@ -147,6 +161,6 @@ export default function ProfileScreen() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
