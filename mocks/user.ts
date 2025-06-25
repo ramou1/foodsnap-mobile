@@ -23,7 +23,7 @@ export const USER: User = {
             timestamp: '2025-04-09T14:30:00',
             likes: 124,
             comments: 18,
-            description: 'Filé a milanesa com risoto.',
+            caption: 'Filé a milanesa com risoto.',
         },
         {
             id: '2',
@@ -36,7 +36,7 @@ export const USER: User = {
             timestamp: '2025-04-10T08:15:00',
             likes: 87,
             comments: 9,
-            description:
+            caption:
                 'ovo mexido torradinha com tomate e café preto',
         },
         {
@@ -64,12 +64,14 @@ export const USER: User = {
             timestamp: '2025-04-08T12:20:00',
             likes: 65,
             comments: 7,
-            description:
+            caption:
                 'Salada mediterrânea com folhas frescas, tomate cereja, pepino, azeitonas e queijo feta. Perfeito para um almoço leve!',
         },
         {
             id: '5',
-            image: require('../assets/images/food05.jpg'),
+            image: require('../assets/images/food05.mp4'),
+            mediaType: 'video',
+            mediaSource: require('../assets/images/food05.mp4'),
             user: {
                 id: 'i3j21',
                 username: 'maria_cozinha',

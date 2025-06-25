@@ -19,6 +19,7 @@ Este é o repositório do aplicativo mobile FoodSnap, desenvolvido com React Nat
 
 - **`expo`**: Framework para desenvolvimento de aplicações React Native.
 - **`expo-router`**: Gerenciador de rotas para aplicações Expo.
+- **`expo-av`**: Biblioteca para reprodução de áudio e vídeo.
 - **`react-native`**: Biblioteca principal para desenvolvimento móvel com React.
 - **`@expo/vector-icons`**: Conjunto de ícones vetoriais para uso no aplicativo.
 - **`react-native-reanimated`**: Biblioteca para animações fluidas e performáticas.

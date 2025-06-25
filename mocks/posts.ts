@@ -55,7 +55,9 @@ export const POSTS: Post[] = [
   },
   {
     id: '5',
-    image: require('../assets/images/food05.jpg'),
+    image: require('../assets/images/food05.mp4'),
+    mediaType: 'video',
+    mediaSource: require('../assets/images/food05.mp4'),
     user: {
       id: 'i3j25',
       username: 'sweet_confections',
@@ -64,7 +66,7 @@ export const POSTS: Post[] = [
     timestamp: '2025-04-07T16:10:00',
     likes: 345,
     comments: 41,
-    caption: 'Lanchinho de filé',
+    caption: '',
   },
   {
     id: '6',
@@ -235,5 +237,18 @@ export const POSTS: Post[] = [
     likes: 1100,
     comments: 130,
     caption: 'petit gateau',
+  },
+  {
+    id: '22',
+    image: require('../assets/images/food22.jpg'),
+    user: {
+      id: 'i3j25',
+      username: 'sweet_confections',
+      avatar: require('../assets/images/default-avatar.png'),
+    },
+    timestamp: '2025-04-07T16:10:00',
+    likes: 90,
+    comments: 2,
+    caption: 'Lanchinho de filé',
   },
 ];

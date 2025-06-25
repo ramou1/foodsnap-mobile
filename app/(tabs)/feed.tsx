@@ -13,6 +13,7 @@ import { POSTS } from "@/mocks/posts";
 import { useRouter } from "expo-router";
 import { Post } from "@/types/post";
 import SearchModal from "@/components/SearchModal";
+import VideoPlayer from "@/components/VideoPlayer";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -81,6 +82,11 @@ export default function FeedScreen() {
           : 350
         : item.height || 200;
 
+    // Determinar se é vídeo baseado no mediaType ou extensão do arquivo
+    const isVideo = item.mediaType === 'video' || 
+                   (typeof item.image === 'object' && 'uri' in item.image && item.image.uri?.endsWith('.mp4')) ||
+                   (typeof item.image === 'number' && item.image.toString().includes('mp4'));
+
     return (
       <TouchableOpacity
         key={item.id}
@@ -92,14 +98,25 @@ export default function FeedScreen() {
         onPress={() => navigateToPostDetail(item)}
       >
         <View className="bg-white rounded-lg overflow-hidden">
-          <Image
-            source={item.image}
-            style={{
-              width: "100%",
-              height: imageHeight,
-            }}
-            resizeMode="cover"
-          />
+          {isVideo ? (
+            <VideoPlayer
+              source={item.mediaSource as any || item.image as any}
+              style={{
+                width: "100%",
+                // Não definir altura para vídeos - deixar o VideoPlayer calcular dinamicamente
+              }}
+              onPress={() => navigateToPostDetail(item)}
+            />
+          ) : (
+            <Image
+              source={item.image}
+              style={{
+                width: "100%",
+                height: imageHeight,
+              }}
+              resizeMode="cover"
+            />
+          )}
         </View>
       </TouchableOpacity>
     );

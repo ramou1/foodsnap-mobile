@@ -15,6 +15,7 @@ import { POSTS } from "../../mocks/posts";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Post } from "@/types/post";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function PostDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -65,6 +66,11 @@ export default function PostDetailScreen() {
     }
   };
 
+  // Determinar se é vídeo baseado no mediaType ou extensão do arquivo
+  const isVideo = post?.mediaType === 'video' || 
+                 (post && typeof post.image === 'object' && 'uri' in post.image && post.image.uri?.endsWith('.mp4')) ||
+                 (post && typeof post.image === 'number' && post.image.toString().includes('mp4'));
+
   if (!post) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
@@ -105,17 +111,27 @@ export default function PostDetailScreen() {
         </View>
         
         <View className="overflow-hidden">
-          <Image 
-            source={post.image} 
-            className="w-full rounded-2xl" 
-            resizeMode="cover" 
-            style={{
-              width: screenWidth,
-              height: screenWidth * 1.6,
-              //borderBottomLeftRadius: 20,
-              //borderBottomRightRadius: 20,
-            }} 
-          />
+          {isVideo ? (
+            <VideoPlayer
+              source={post.mediaSource as any || post.image as any}
+              style={{
+                width: screenWidth,
+                height: screenWidth * 1.6,
+              }}
+              shouldPlay={true}
+              showControls={true}
+            />
+          ) : (
+            <Image 
+              source={post.image} 
+              className="w-full rounded-2xl" 
+              resizeMode="cover" 
+              style={{
+                width: screenWidth,
+                height: screenWidth * 1.6,
+              }} 
+            />
+          )}
         </View>
 
         <View className="p-4">

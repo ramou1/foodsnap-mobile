@@ -13,6 +13,7 @@ import { Post } from "@/types/post";
 import { USER } from "@/mocks/user";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function ProfileScreen() {
   const [avatar] = React.useState(
@@ -32,6 +33,55 @@ export default function ProfileScreen() {
       pathname: "/posts/[id]",
       params: { id: post.id },
     });
+  };
+
+  const renderPostItem = (post: Post) => {
+    // Determinar se é vídeo baseado no mediaType ou extensão do arquivo
+    const isVideo = post.mediaType === 'video' || 
+                   (typeof post.image === 'object' && 'uri' in post.image && post.image.uri?.endsWith('.mp4')) ||
+                   (typeof post.image === 'number' && post.image.toString().includes('mp4'));
+
+    return (
+      <TouchableOpacity
+        key={post.id}
+        className="p-0.5"
+        onPress={() => navigateToPostDetail(post)}
+      >
+        <View style={{ position: "relative" }}>
+          {isVideo ? (
+            <VideoPlayer
+              source={post.mediaSource as any || post.image as any}
+              style={{ 
+                width: imageWidth, 
+                height: imageHeight 
+              }}
+              shouldPlay={false} // Vídeo não reproduz automaticamente no perfil
+              onPress={() => navigateToPostDetail(post)}
+            />
+          ) : (
+            <Image
+              source={post.image}
+              style={{ width: imageWidth, height: imageHeight }}
+            />
+          )}
+          
+          {post.reposted && (
+            <View
+              style={{
+                position: "absolute",
+                top: 5,
+                right: 5,
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderRadius: 10,
+                padding: 3,
+              }}
+            >
+              <FontAwesome name="retweet" size={15} color="#FFFFFF" />
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -117,34 +167,7 @@ export default function ProfileScreen() {
         </View>
 
         <View className="flex-row flex-wrap bg-white">
-          {posts.map((post: Post) => (
-            <TouchableOpacity
-              key={post.id}
-              className="p-0.5"
-              onPress={() => navigateToPostDetail(post)}
-            >
-              <View style={{ position: "relative" }}>
-                <Image
-                  source={post.image}
-                  style={{ width: imageWidth, height: imageHeight }}
-                />
-                {post.reposted && (
-                  <View
-                    style={{
-                      position: "absolute",
-                      top: 5,
-                      right: 5,
-                      backgroundColor: "rgba(0,0,0,0.3)",
-                      borderRadius: 10,
-                      padding: 3,
-                    }}
-                  >
-                    <FontAwesome name="retweet" size={15} color="#FFFFFF" />
-                  </View>
-                )}
-              </View>
-            </TouchableOpacity>
-          ))}
+          {posts.map((post: Post) => renderPostItem(post))}
         </View>
       </ScrollView>
     </SafeAreaView>
