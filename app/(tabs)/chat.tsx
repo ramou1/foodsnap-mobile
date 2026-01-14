@@ -9,6 +9,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { CHAT_CONVERSATIONS, ChatConversation } from "@/mocks/chat";
 
 export default function ChatTab() {
@@ -19,7 +20,10 @@ export default function ChatTab() {
       <TouchableOpacity
         className="flex-row items-center px-4 py-3 border-b border-gray-200 bg-white"
         onPress={() => {
-          // TODO: Navegar para tela de conversa individual
+          router.push({
+            pathname: "/chat/[id]",
+            params: { id: item.id },
+          });
         }}
         activeOpacity={0.7}
       >

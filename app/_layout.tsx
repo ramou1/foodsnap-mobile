@@ -41,6 +41,22 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="users/[id]"
+          options={{
+            headerShown: false,
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
+          name="chat/[id]"
+          options={{
+            headerShown: false,
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
           name="create-post"
           options={{
             headerTitle: "nova publicação",
