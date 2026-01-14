@@ -179,7 +179,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
 
       if (item.type === "user") {
         router.push({
-          pathname: "/(tabs)/profile/[id]" as any,
+          pathname: "/users/[id]",
           params: { id: item.id },
         });
         onClose();
