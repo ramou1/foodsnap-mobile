@@ -14,6 +14,9 @@ import {
 import { FontAwesome, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useSettings } from "@/contexts/SettingsContext";
 
 // Mock data for testing
 import { USER } from "@/mocks/user";
@@ -49,6 +52,8 @@ interface HistoryItem {
 const SEARCH_HISTORY_KEY = "foodsnap_search_history";
 
 const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
+  const { t } = useTranslation();
+  const { isDark } = useSettings();
   const [searchText, setSearchText] = useState<string>("");
   const [activeTab, setActiveTab] = useState<
     "locations" | "restaurants" | "users"
@@ -324,25 +329,20 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={false}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <View className="flex-1 bg-white">
-        {/* Header */}
-        <View className="flex-row items-center px-4 py-3 border-b border-gray-200">
+    <Modal animationType="slide" transparent={false} visible={visible} onRequestClose={onClose}>
+      <SafeAreaView edges={["top", "bottom"]} className={`flex-1 ${isDark ? "bg-[#1A1A2E]" : "bg-white"}`}>
+        <View className={`flex-row items-center px-4 py-3 border-b ${isDark ? "border-[#2D2D44]" : "border-gray-200"}`}>
           <TouchableOpacity onPress={onClose} className="mr-4">
-            <Ionicons name="arrow-back" size={24} color="black" />
+            <Ionicons name="arrow-back" size={24} color={isDark ? "#fff" : "black"} />
           </TouchableOpacity>
-          <View className="flex-1 flex-row items-center bg-gray-100 rounded-md px-3 py-2">
-            <Ionicons name="search" size={18} color="gray" className="mr-2" />
+          <View className={`flex-1 flex-row items-center rounded-xl px-3 py-2.5 ${isDark ? "bg-[#0F0F1A]" : "bg-gray-100"}`}>
+            <Ionicons name="search" size={18} color="gray" />
             <TextInput
-              placeholder="Search"
+              placeholder={t("search.placeholder")}
+              placeholderTextColor="#9C96AD"
               value={searchText}
               onChangeText={setSearchText}
-              className="flex-1 ml-2"
+              className={`flex-1 ml-2 ${isDark ? "text-white" : "text-text"}`}
               autoFocus
             />
             {searchText.length > 0 && (
@@ -353,50 +353,18 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
           </View>
         </View>
 
-        {/* Tabs de pesquisa*/}
-        <View className="flex-row border-b border-gray-200">
-          <TouchableOpacity
-            className={`flex-1 py-3 ${
-              activeTab === "locations" ? "border-b-2 border-black" : ""
-            }`}
-            onPress={() => setActiveTab("locations")}
-          >
-            <Text
-              className={`text-center ${
-                activeTab === "locations" ? "font-bold" : ""
-              }`}
+        <View className={`flex-row border-b ${isDark ? "border-[#2D2D44]" : "border-gray-200"}`}>
+          {(["locations", "restaurants", "users"] as const).map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              className={`flex-1 py-3 ${activeTab === tab ? "border-b-2 border-brand" : ""}`}
+              onPress={() => setActiveTab(tab)}
             >
-              locations
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className={`flex-1 py-3 ${
-              activeTab === "restaurants" ? "border-b-2 border-black" : ""
-            }`}
-            onPress={() => setActiveTab("restaurants")}
-          >
-            <Text
-              className={`text-center ${
-                activeTab === "restaurants" ? "font-bold" : ""
-              }`}
-            >
-              restaurants
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className={`flex-1 py-3 ${
-              activeTab === "users" ? "border-b-2 border-black" : ""
-            }`}
-            onPress={() => setActiveTab("users")}
-          >
-            <Text
-              className={`text-center ${
-                activeTab === "users" ? "font-bold" : ""
-              }`}
-            >
-              users
-            </Text>
-          </TouchableOpacity>
+              <Text className={`text-center font-rubik ${activeTab === tab ? "font-rubik-bold text-brand" : isDark ? "text-gray-400" : "text-text-muted"}`}>
+                {t(`search.${tab}`)}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         {/* Results */}
@@ -407,7 +375,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
             keyExtractor={(item) => `${item.type}-${item.id}`}
             ListEmptyComponent={
               <View className="p-4 items-center justify-center">
-                <Text className="text-gray-500">no results found :(</Text>
+                <Text className="text-gray-500">{t("search.noResults")}</Text>
               </View>
             }
           />
@@ -415,7 +383,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
           <>
             {/* Recent searches */}
             <View className="px-4 py-3">
-              <Text className="font-bold text-lg">recent searches</Text>
+              <Text className="font-rubik-bold text-lg dark:text-white">{t("search.recent")}</Text>
             </View>
             <FlatList
               data={searchHistory}
@@ -423,13 +391,13 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
               keyExtractor={(item) => `history-${item.type}-${item.id}`}
               ListEmptyComponent={
                 <View className="p-4 items-center justify-center">
-                  <Text className="text-gray-500">no recent searches :(</Text>
+                  <Text className="text-gray-500">{t("search.noRecent")}</Text>
                 </View>
               }
             />
           </>
         )}
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

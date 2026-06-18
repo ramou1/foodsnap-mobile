@@ -3,10 +3,9 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  Modal,
   ScrollView,
+  Text,
 } from "react-native";
-import { Text } from "@/components/Themed";
 import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { POSTS } from "@/mocks/posts";
@@ -15,287 +14,139 @@ import { Post } from "@/types/post";
 import SearchModal from "@/components/SearchModal";
 import VideoPlayer from "@/components/VideoPlayer";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenContainer } from "@/components/ui/ScreenContainer";
+import { SegmentedTabs } from "@/components/ui/SegmentedTabs";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const { width } = Dimensions.get("window");
 
 export default function FeedScreen() {
   const [feed, setFeed] = useState<Post[]>([]);
   const [numColumns, setNumColumns] = useState(3);
-  const [modalVisible, setModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("for-you");
-  const [searchModalVisible, setSearchModalVisible] = React.useState(false);
+  const [searchModalVisible, setSearchModalVisible] = useState(false);
   const router = useRouter();
+  const { t } = useTranslation();
+  const { isDark } = useSettings();
 
   useEffect(() => {
-    const preparedData = POSTS.map((post) => ({
-      ...post,
-      height: Math.floor(Math.random() * (280 - 150) + 150),
-    }));
-
-    setFeed(preparedData);
+    setFeed(
+      POSTS.map((post) => ({
+        ...post,
+        height: Math.floor(Math.random() * (280 - 150) + 150),
+      }))
+    );
   }, []);
 
-  const toggleRepost = (id: string, event: any) => {
-    event.stopPropagation();
-    setFeed(
-      feed.map((item) =>
-        item.id === id ? { ...item, reposted: !item.reposted } : item
-      )
-    );
-  };
-
   const navigateToPostDetail = (post: Post) => {
-    router.push({
-      pathname: "/posts/[id]",
-      params: { id: post.id },
-    });
+    router.push({ pathname: "/posts/[id]", params: { id: post.id } });
   };
 
-  const changeColumnView = (columns: number) => {
-    setNumColumns(columns);
+  const changeColumnView = () => {
+    setNumColumns((prev) => (prev === 1 ? 2 : prev === 2 ? 3 : 1));
   };
 
   const distributePostsByColumns = (posts: Post[]) => {
-    const filteredPosts =
-      activeTab === "following" ? posts.filter((item) => item.reposted) : posts;
-
+    const filtered = activeTab === "following" ? posts.filter((item) => item.reposted) : posts;
     const columns: Post[][] = Array.from({ length: numColumns }, () => []);
-
-    filteredPosts.forEach((post, index) => {
-      const columnIndex = index % numColumns;
-      columns[columnIndex].push(post);
-    });
-
+    filtered.forEach((post, index) => columns[index % numColumns].push(post));
     return columns;
   };
+
+  const isVideoPost = (item: Post) =>
+    item.mediaType === "video" ||
+    (typeof item.image === "object" && "uri" in item.image && item.image.uri?.endsWith(".mp4")) ||
+    (typeof item.image === "number" && item.image.toString().includes("mp4"));
 
   const renderPostItem = (item: Post) => {
     const columnWidth = width / numColumns - (numColumns === 3 ? 6 : 10);
     const margin = numColumns === 3 ? 2 : 4;
-
-    const imageHeight =
-      numColumns === 1
-        ? item.height
-          ? item.height * 1.5
-          : 350
-        : item.height || 200;
-
-    // Determinar se é vídeo baseado no mediaType ou extensão do arquivo
-    const isVideo = item.mediaType === 'video' || 
-                   (typeof item.image === 'object' && 'uri' in item.image && item.image.uri?.endsWith('.mp4')) ||
-                   (typeof item.image === 'number' && item.image.toString().includes('mp4'));
+    const imageHeight = numColumns === 1 ? (item.height ? item.height * 1.5 : 350) : item.height || 200;
 
     return (
       <TouchableOpacity
         key={item.id}
-        style={{
-          width: columnWidth,
-          marginBottom: margin * 2,
-        }}
-        activeOpacity={0.9}
+        style={{ width: columnWidth, marginBottom: margin * 2 }}
+        activeOpacity={0.92}
         onPress={() => navigateToPostDetail(item)}
       >
-        <View className="bg-white rounded-lg overflow-hidden">
-          {isVideo ? (
+        <View className="bg-surface rounded-2xl overflow-hidden shadow-sm">
+          {isVideoPost(item) ? (
             <VideoPlayer
-              source={item.mediaSource as any || item.image as any}
-              style={{
-                width: "100%",
-                // Não definir altura para vídeos - deixar o VideoPlayer calcular dinamicamente
-              }}
+              source={(item.mediaSource || item.image) as any}
+              style={{ width: "100%" }}
               onPress={() => navigateToPostDetail(item)}
             />
           ) : (
-            <Image
-              source={item.image}
-              style={{
-                width: "100%",
-                height: imageHeight,
-              }}
-              resizeMode="cover"
-            />
+            <Image source={item.image} style={{ width: "100%", height: imageHeight }} resizeMode="cover" />
+          )}
+          {item.reposted && (
+            <View className="absolute top-2 right-2 bg-black/40 rounded-full p-1.5">
+              <FontAwesome name="retweet" size={12} color="#F59E0B" />
+            </View>
           )}
         </View>
       </TouchableOpacity>
-    );
-  };
-
-  const NewPostModal = () => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          backgroundColor: "rgba(0,0,0,0.5)",
-        }}
-        activeOpacity={1}
-        onPress={() => setModalVisible(false)}
-      >
-        <View
-          style={{
-            backgroundColor: "white",
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            padding: 20,
-            paddingBottom: 40,
-          }}
-        >
-          <View style={{ alignItems: "center", marginBottom: 20 }}>
-            <View
-              style={{
-                width: 40,
-                height: 5,
-                backgroundColor: "#ddd",
-                borderRadius: 5,
-                marginBottom: 15,
-              }}
-            />
-            <Text className="text-lg font-bold">Nova Publicação</Text>
-          </View>
-
-          <TouchableOpacity
-            className="bg-gray-100 p-4 rounded-lg flex-row items-center mb-3"
-            onPress={() => {
-              setModalVisible(false);
-              // TODO: ir para a tela de criar nova publicação
-            }}
-          >
-            <FontAwesome name="camera" size={24} color="#333" />
-            <Text className="ml-3 text-base">Tirar uma foto</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            className="bg-gray-100 p-4 rounded-lg flex-row items-center"
-            onPress={() => {
-              setModalVisible(false);
-              // TODO: abrir a galeria
-            }}
-          >
-            <FontAwesome name="image" size={24} color="#333" />
-            <Text className="ml-3 text-base">Escolher da galeria</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
-    </Modal>
-  );
-
-  const ColumnSelector = () => {
-    return (
-      <View className="rounded-full overflow-hidden border border-gray-300 w-[35px] h-[35px] items-center justify-center">
-        <TouchableOpacity
-          className="p-2"
-          onPress={() => {
-            if (numColumns === 1) changeColumnView(2);
-            else if (numColumns === 2) changeColumnView(3);
-            else changeColumnView(1);
-          }}
-        >
-          {numColumns === 1 ? (
-            <FontAwesome name="list" size={20} color="#333" />
-          ) : numColumns === 2 ? (
-            <MaterialIcons name="grid-view" size={20} color="#333" />
-          ) : (
-            <MaterialIcons name="grid-on" size={20} color="#333" />
-          )}
-        </TouchableOpacity>
-      </View>
     );
   };
 
   const columns = distributePostsByColumns(feed);
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-white">
-      <StatusBar style="dark" />
-      <View className="px-4 pt-3 pb-2">
-        <View className="flex-row items-center justify-between mb-2">
-          <ColumnSelector />
-
-          <View className="flex-row flex-1 justify-center space-x-2">
-            <TouchableOpacity
-              className={`px-4 py-2 rounded-full ${
-                activeTab === "for-you" ? "bg-black" : "bg-gray-200"
-              }`}
-              onPress={() => setActiveTab("for-you")}
-            >
-              <View className="flex-row items-center">
-                <Ionicons
-                  name="restaurant"
-                  size={16}
-                  color={activeTab === "for-you" ? "white" : "#333"}
-                  style={{ marginRight: 6 }}
-                />
-                <Text
-                  style={{ color: activeTab === "for-you" ? "white" : "#333" }}
-                >
-                  for you
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              className={`px-4 py-2 ml-2 rounded-full ${
-                activeTab === "following" ? "bg-black" : "bg-gray-200"
-              }`}
-              onPress={() => setActiveTab("following")}
-            >
-              <View className="flex-row items-center">
-                <MaterialIcons
-                  name="favorite"
-                  size={16}
-                  color={activeTab === "following" ? "white" : "#333"}
-                  style={{ marginRight: 6 }}
-                />
-                <Text
-                  style={{
-                    color: activeTab === "following" ? "white" : "#333",
-                  }}
-                >
-                  following
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity onPress={() => setSearchModalVisible(true)}>
-            <Ionicons name="search" size={24} color="black" />
+    <ScreenContainer className="bg-surface dark:bg-[#1A1A2E]">
+      <View className="px-4 pt-2 pb-3">
+        <View className="flex-row items-center justify-between mb-3">
+          <Text className="text-2xl font-rubik-bold text-brand">{t("feed.title")}</Text>
+          <TouchableOpacity
+            onPress={() => setSearchModalVisible(true)}
+            className={`w-10 h-10 rounded-full items-center justify-center ${isDark ? "bg-[#0F0F1A]" : "bg-background"}`}
+          >
+            <Ionicons name="search" size={22} color="#1A1A2E" />
           </TouchableOpacity>
+        </View>
+
+        <View className="flex-row items-center gap-2">
+          <TouchableOpacity
+            onPress={changeColumnView}
+            className="w-10 h-10 rounded-full bg-background items-center justify-center border border-border"
+          >
+            {numColumns === 1 ? (
+              <FontAwesome name="list" size={18} color="#6B7280" />
+            ) : numColumns === 2 ? (
+              <MaterialIcons name="grid-view" size={18} color="#6B7280" />
+            ) : (
+              <MaterialIcons name="grid-on" size={18} color="#6B7280" />
+            )}
+          </TouchableOpacity>
+
+          <View className="flex-1">
+            <SegmentedTabs
+              tabs={[
+                { key: "for-you", label: t("feed.forYou"), icon: <Ionicons name="restaurant" size={14} color={activeTab === "for-you" ? "#fff" : "#9C96AD"} /> },
+                { key: "following", label: t("feed.following"), icon: <MaterialIcons name="favorite" size={14} color={activeTab === "following" ? "#fff" : "#9C96AD"} /> },
+              ]}
+              activeKey={activeTab}
+              onChange={setActiveTab}
+            />
+          </View>
         </View>
       </View>
 
-      {/* Masonry layout como ScrollView */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: numColumns === 3 ? 2 : 4 }}
+        contentContainerStyle={{ paddingHorizontal: numColumns === 3 ? 2 : 4, paddingBottom: 16 }}
       >
-        <View className="flex-row" style={{ marginLeft: -2, marginRight: -2 }}>
+        <View className="flex-row" style={{ marginHorizontal: -2 }}>
           {columns.map((column, columnIndex) => (
-            <View
-              key={`column-${columnIndex}`}
-              style={{
-                flex: 1,
-                padding: numColumns === 3 ? 2 : 4,
-              }}
-            >
+            <View key={`column-${columnIndex}`} style={{ flex: 1, padding: numColumns === 3 ? 2 : 4 }}>
               {column.map((item) => renderPostItem(item))}
             </View>
           ))}
         </View>
       </ScrollView>
 
-      <NewPostModal />
-
-      <SearchModal
-        visible={searchModalVisible}
-        onClose={() => setSearchModalVisible(false)}
-      />
-    </SafeAreaView>
+      <SearchModal visible={searchModalVisible} onClose={() => setSearchModalVisible(false)} />
+    </ScreenContainer>
   );
 }

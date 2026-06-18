@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
@@ -15,10 +16,23 @@ module.exports = {
         "rubik-black": ["Rubik-Black"],
       },
       colors: {
-        primary: "#3b82f6",
+        brand: "#6e11b0",
+        "brand-light": "#9333ea",
+        "brand-dark": "#4c0b7a",
+        accent: "#FF6B35",
+        "accent-light": "#FFF0EB",
+        like: "#FF4D67",
+        repost: "#F59E0B",
+        surface: "#FFFFFF",
+        background: "#F8F7FA",
+        muted: "#9C96AD",
+        border: "#E8E6ED",
+        text: "#1A1A2E",
+        "text-muted": "#6B7280",
+        danger: "#EF4444",
+        success: "#10B981",
+        primary: "#6e11b0",
         secondary: "#9333ea",
-        background: "#f9fafb",
-        text: "#111827",
       },
     },
   },

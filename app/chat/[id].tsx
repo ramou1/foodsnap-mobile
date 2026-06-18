@@ -11,68 +11,51 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { CHAT_CONVERSATIONS, ChatMessage } from "@/mocks/chat";
+import { ScreenContainer } from "@/components/ui/ScreenContainer";
+import { ScreenHeader } from "@/components/ui/ScreenHeader";
+import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ChatDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
-  const [conversation, setConversation] = useState(
-    CHAT_CONVERSATIONS.find((c) => c.id === id)
-  );
+  const conversation = CHAT_CONVERSATIONS.find((c) => c.id === id);
 
   useEffect(() => {
     if (conversation) {
       setMessages(conversation.messages);
-      // Scroll to bottom when messages load
-      setTimeout(() => {
-        flatListRef.current?.scrollToEnd({ animated: false });
-      }, 100);
+      setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 100);
     }
   }, [conversation]);
 
   const handleSendMessage = () => {
     if (inputText.trim().length === 0 || !conversation) return;
-
     const newMessage: ChatMessage = {
       id: `msg-${Date.now()}`,
       text: inputText.trim(),
       timestamp: new Date().toISOString(),
       isMe: true,
     };
-
     setMessages((prev) => [...prev, newMessage]);
     setInputText("");
-
-    // Scroll to bottom after sending
-    setTimeout(() => {
-      flatListRef.current?.scrollToEnd({ animated: true });
-    }, 100);
+    setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
   const renderMessage = ({ item }: { item: ChatMessage }) => {
     const isMyMessage = item.isMe;
-
     return (
-      <View
-        className={`flex-row mb-3 px-4 ${isMyMessage ? "justify-end" : "justify-start"}`}
-      >
+      <View className={`flex-row mb-3 px-4 ${isMyMessage ? "justify-end" : "justify-start"}`}>
         <View
-          className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-            isMyMessage
-              ? "bg-violet-500 rounded-tr-sm"
-              : "bg-gray-200 rounded-tl-sm"
+          className={`max-w-[78%] rounded-2xl px-4 py-3 ${
+            isMyMessage ? "bg-brand rounded-br-sm" : "bg-surface border border-border rounded-bl-sm"
           }`}
         >
-          <Text
-            className={`text-base ${
-              isMyMessage ? "text-white" : "text-gray-900"
-            }`}
-          >
+          <Text className={`text-base font-rubik ${isMyMessage ? "text-white" : "text-text"}`}>
             {item.text}
           </Text>
         </View>
@@ -82,49 +65,33 @@ export default function ChatDetailScreen() {
 
   if (!conversation) {
     return (
-      <SafeAreaView edges={["top"]} className="flex-1 bg-gray-100">
-        <StatusBar style="dark" />
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-lg mb-4">Conversa não encontrada</Text>
-          <TouchableOpacity
-            className="mt-4 bg-black px-6 py-2 rounded-md"
-            onPress={() => router.back()}
-          >
-            <Text className="text-white">Voltar</Text>
-          </TouchableOpacity>
+      <ScreenContainer>
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-lg font-rubik text-text-muted mb-4">{t("chat.notFound")}</Text>
+          <Button label={t("chat.back")} variant="outline" onPress={() => router.back()} className="w-40" />
         </View>
-      </SafeAreaView>
+      </ScreenContainer>
     );
   }
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-gray-100">
-      <StatusBar style="dark" />
+    <ScreenContainer edges={["top", "bottom"]}>
+      <ScreenHeader
+        title={conversation.name}
+        subtitle={conversation.username}
+        showBack
+        rightAction={
+          <TouchableOpacity className="w-10 h-10 rounded-full bg-background items-center justify-center">
+            <Ionicons name="call-outline" size={22} color="#6e11b0" />
+          </TouchableOpacity>
+        }
+      />
+
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
-        {/* Header */}
-        <View className="bg-white px-4 py-3 flex-row items-center border-b border-gray-200">
-          <TouchableOpacity onPress={() => router.back()} className="mr-4">
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </TouchableOpacity>
-          <Image
-            source={conversation.avatar}
-            className="rounded-full mr-3"
-            style={{ width: 36, height: 36 }}
-          />
-          <View className="flex-1">
-            <Text className="text-base font-semibold">{conversation.name}</Text>
-            <Text className="text-xs text-gray-500">{conversation.username}</Text>
-          </View>
-          <TouchableOpacity>
-            <Ionicons name="call-outline" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Messages List */}
         <FlatList
           ref={flatListRef}
           data={messages}
@@ -132,35 +99,35 @@ export default function ChatDetailScreen() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingVertical: 16 }}
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={() =>
-            flatListRef.current?.scrollToEnd({ animated: false })
-          }
+          onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: false })}
         />
 
-        {/* Input Area */}
-        <View className="bg-white border-t border-gray-200 px-4 py-3">
-          <View className="flex-row items-center">
-            <TouchableOpacity className="mr-3">
-              <Ionicons name="add-circle-outline" size={28} color="#6B7280" />
+        <View className="bg-surface border-t border-border px-4 py-3">
+          <View className="flex-row items-end gap-2">
+            <TouchableOpacity className="w-10 h-10 rounded-full bg-background items-center justify-center">
+              <Ionicons name="add" size={24} color="#6e11b0" />
             </TouchableOpacity>
-            <View className="flex-1 bg-gray-100 rounded-full px-4 py-2 flex-row items-center">
+            <View className="flex-1 bg-background border border-border rounded-2xl px-4 py-2.5 flex-row items-center min-h-[44px]">
               <TextInput
-                className="flex-1 text-base"
-                placeholder="Mensagem..."
+                className="flex-1 text-base font-rubik text-text max-h-24"
+                placeholder={t("chat.messagePlaceholder")}
+                placeholderTextColor="#9C96AD"
                 value={inputText}
                 onChangeText={setInputText}
                 multiline
                 maxLength={500}
               />
-              {inputText.length > 0 && (
-                <TouchableOpacity onPress={handleSendMessage} className="ml-2">
-                  <Ionicons name="send" size={24} color="#9333EA" />
-                </TouchableOpacity>
-              )}
             </View>
+            <TouchableOpacity
+              onPress={handleSendMessage}
+              disabled={!inputText.trim()}
+              className={`w-11 h-11 rounded-full items-center justify-center ${inputText.trim() ? "bg-brand" : "bg-border"}`}
+            >
+              <Ionicons name="send" size={20} color={inputText.trim() ? "#fff" : "#9C96AD"} />
+            </TouchableOpacity>
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }

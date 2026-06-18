@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,10 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Post } from "@/types/post";
 import { User } from "@/types/user";
 import { USER } from "@/mocks/user";
+import { ScreenContainer } from "@/components/ui/ScreenContainer";
+import { ScreenHeader } from "@/components/ui/ScreenHeader";
+import { Button } from "@/components/ui/Button";
 
-// Mock users array for dynamic profiles
 const MOCK_USERS: User[] = [
   USER,
   {
@@ -32,117 +34,80 @@ const MOCK_USERS: User[] = [
 
 export default function UserProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const [isFollowing, setIsFollowing] = useState(false);
   const user = MOCK_USERS.find((u) => u.id === id);
   const screenWidth = Dimensions.get("window").width;
   const imageWidth = screenWidth / 3 - 4;
   const imageHeight = imageWidth * 1.5;
 
-  // If user not found
   if (!user) {
     return (
-      <View className="flex-1 justify-center items-center bg-gray-100">
-        <Text className="text-lg mb-4">Usuário não encontrado</Text>
-        <TouchableOpacity
-          className="mt-4 bg-black px-6 py-2 rounded-md"
-          onPress={() => router.back()}
-        >
-          <Text className="text-white">Voltar</Text>
-        </TouchableOpacity>
-      </View>
+      <ScreenContainer>
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-lg font-rubik text-text-muted mb-4">Usuário não encontrado</Text>
+          <Button label="Voltar" variant="outline" onPress={() => router.back()} className="w-40" />
+        </View>
+      </ScreenContainer>
     );
   }
 
   const highlights = user.highlights || [];
   const posts = user.postsList || [];
 
-  const navigateToPostDetail = (post: Post) => {
-    router.push({
-      pathname: "/posts/[id]",
-      params: { id: post.id },
-    });
-  };
-
   return (
-    <View className="flex-1 bg-gray-100">
-      {/* Header */}
-      <View className="bg-white px-4 py-3 flex-row items-center border-b border-gray-200">
-        <TouchableOpacity onPress={() => router.back()} className="mr-4">
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text className="text-xl font-bold">{user.username}</Text>
-      </View>
+    <ScreenContainer>
+      <ScreenHeader title={user.username || ""} showBack />
 
-      <ScrollView className="flex-1">
-        <View className="bg-white px-4 pt-4">
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View className="bg-surface px-4 pt-4 pb-2">
           <View className="flex-row items-center">
-            <Image
-              source={user.avatar || require("../assets/images/default-avatar.png")}
-              className="rounded-full border-2 border-gray-200"
-              style={{
-                width: 86,
-                height: 86,
-              }}
-            />
+            <View className="rounded-full border-2 border-brand p-0.5">
+              <Image
+                source={user.avatar || require("../assets/images/default-avatar.png")}
+                style={{ width: 80, height: 80 }}
+                className="rounded-full"
+              />
+            </View>
 
             <View className="flex-1 ml-4">
-              <Text className="text-xl font-bold mb-1">
-                {user.username}
-              </Text>
-
-              <View className="flex-row justify-between mt-2">
-                <View className="items-center">
-                  <Text className="font-bold text-base">{user.posts || 0}</Text>
-                  <Text className="text-sm text-gray-500">posts</Text>
-                </View>
-                <View className="items-center">
-                  <Text className="font-bold text-base">
-                    {user.followers || 0}
-                  </Text>
-                  <Text className="text-sm text-gray-500">followers</Text>
-                </View>
-                <View className="items-center">
-                  <Text className="font-bold text-base">
-                    {user.following || 0}
-                  </Text>
-                  <Text className="text-sm text-gray-500">following</Text>
-                </View>
+              <Text className="text-xl font-rubik-bold text-text">{user.username}</Text>
+              <View className="flex-row justify-around mt-3">
+                {[
+                  { value: user.posts || 0, label: "Posts" },
+                  { value: user.followers || 0, label: "Seguidores" },
+                  { value: user.following || 0, label: "Seguindo" },
+                ].map((stat) => (
+                  <View key={stat.label} className="items-center">
+                    <Text className="font-rubik-bold text-base text-text">{stat.value}</Text>
+                    <Text className="text-xs text-text-muted font-rubik">{stat.label}</Text>
+                  </View>
+                ))}
               </View>
             </View>
           </View>
 
           <View className="mt-3">
-            <Text className="font-medium">{user.name}</Text>
-            <Text className="text-sm mt-1">{user.bio}</Text>
+            <Text className="font-rubik-semibold text-text">{user.name}</Text>
+            <Text className="text-sm text-text-muted font-rubik mt-1 leading-5">{user.bio}</Text>
           </View>
 
-          <View className="flex-row justify-between mt-4">
-            <TouchableOpacity className="bg-violet-500 rounded-md py-2 mt-3 mb-4 w-full">
-              <Text className="text-center font-medium text-white">
-                {user.isFollowing ? "Seguindo" : "Seguir"}
-              </Text>
-            </TouchableOpacity>
+          <View className="mt-4 mb-2">
+            <Button
+              label={isFollowing ? "Seguindo" : "Seguir"}
+              variant={isFollowing ? "outline" : "primary"}
+              onPress={() => setIsFollowing(!isFollowing)}
+              className="h-11"
+            />
           </View>
 
-          {/* Highlights */}
           {highlights.length > 0 && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className="pb-4"
-            >
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="pb-4 mt-2">
               {highlights.map((highlight) => (
-                <TouchableOpacity
-                  key={highlight.id}
-                  className="items-center mr-4"
-                >
-                  <View className="border-2 border-gray-300 rounded-full p-1">
-                    <Image
-                      source={highlight.image}
-                      style={{ width: 60, height: 60 }}
-                      className="rounded-full"
-                    />
+                <TouchableOpacity key={highlight.id} className="items-center mr-4">
+                  <View className="border-2 border-brand/30 rounded-full p-0.5">
+                    <Image source={highlight.image} style={{ width: 58, height: 58 }} className="rounded-full" />
                   </View>
-                  <Text className="text-xs mt-1">{highlight.title}</Text>
+                  <Text className="text-xs font-rubik text-text-muted mt-1.5">{highlight.title}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -150,38 +115,32 @@ export default function UserProfileScreen() {
         </View>
 
         {posts.length > 0 && (
-          <View className="flex-row flex-wrap bg-white">
-            {posts.map((post) => (
-              <TouchableOpacity
-                key={post.id}
-                className="p-0.5"
-                onPress={() => navigateToPostDetail(post)}
-              >
-                <View style={{ position: "relative" }}>
-                  <Image
-                    source={post.image}
-                    style={{ width: imageWidth, height: imageHeight }}
-                  />
-                  {post.reposted && (
-                    <View
-                      style={{
-                        position: "absolute",
-                        top: 5,
-                        right: 5,
-                        backgroundColor: "rgba(0,0,0,0.3)",
-                        borderRadius: 10,
-                        padding: 3,
-                      }}
-                    >
-                      <FontAwesome name="retweet" size={15} color="#FFFFFF" />
-                    </View>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+          <>
+            <View className="flex-row items-center px-4 py-2 bg-surface border-t border-b border-border">
+              <Ionicons name="grid" size={18} color="#6e11b0" />
+              <Text className="ml-2 font-rubik-semibold text-text">Publicações</Text>
+            </View>
+            <View className="flex-row flex-wrap bg-surface">
+              {posts.map((post) => (
+                <TouchableOpacity
+                  key={post.id}
+                  className="p-0.5"
+                  onPress={() => router.push({ pathname: "/posts/[id]", params: { id: post.id } })}
+                >
+                  <View className="relative">
+                    <Image source={post.image} style={{ width: imageWidth, height: imageHeight }} />
+                    {post.reposted && (
+                      <View className="absolute top-1.5 right-1.5 bg-black/40 rounded-full p-1">
+                        <FontAwesome name="retweet" size={12} color="#F59E0B" />
+                      </View>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </>
         )}
       </ScrollView>
-    </View>
+    </ScreenContainer>
   );
 }

@@ -1,136 +1,139 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-  Alert,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, Alert } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { router } from "expo-router";
+import { ScreenContainer } from "@/components/ui/ScreenContainer";
+import { ScreenHeader } from "@/components/ui/ScreenHeader";
+import { FormInput } from "@/components/ui/FormInput";
+import { Button } from "@/components/ui/Button";
+import { useSettings, ThemeMode } from "@/contexts/SettingsContext";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Language } from "@/i18n/translations";
+
+function OptionRow<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+  labels,
+}: {
+  label: string;
+  options: T[];
+  value: T;
+  onChange: (v: T) => void;
+  labels: Record<T, string>;
+}) {
+  return (
+    <View className="mb-5">
+      <Text className="text-sm font-rubik-medium text-text-muted dark:text-gray-400 mb-2">{label}</Text>
+      <View className="flex-row flex-wrap gap-2">
+        {options.map((opt) => (
+          <TouchableOpacity
+            key={opt}
+            onPress={() => onChange(opt)}
+            className={`px-4 py-2.5 rounded-xl border ${
+              value === opt ? "bg-brand border-brand" : "border-border dark:border-[#2D2D44] bg-background dark:bg-[#0F0F1A]"
+            }`}
+          >
+            <Text className={`font-rubik-medium ${value === opt ? "text-white" : "text-text dark:text-white"}`}>
+              {labels[opt]}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+}
 
 export default function SettingsScreen() {
+  const { t } = useTranslation();
+  const { themeMode, setThemeMode, language, setLanguage } = useSettings();
   const [avatar] = useState(require("../assets/images/default-avatar.png"));
-
-  // Estados para os campos do formulário
   const [name, setName] = useState("Fulano de Tal");
   const [username, setUsername] = useState("foodlover_123");
   const [bio, setBio] = useState("Amante da boa comida 🍝🍣🍕");
-  const [gender, setGender] = useState("Masculino");
   const [email, setEmail] = useState("user@example.com");
   const [phone, setPhone] = useState("(55) 98123-4567");
 
-  // Função para lidar com o envio do formulário
-  const handleSave = () => {
-    // Aqui você implementaria a lógica de salvamento dos dados
-    Alert.alert("Sucesso", "Informações salvas com sucesso!");
+  const themeLabels: Record<ThemeMode, string> = {
+    light: t("settings.themeLight"),
+    dark: t("settings.themeDark"),
+    system: t("settings.themeSystem"),
   };
 
-  // Função para fazer logout
+  const langLabels: Record<Language, string> = {
+    pt: t("settings.langPt"),
+    en: t("settings.langEn"),
+    es: t("settings.langEs"),
+  };
+
+  const handleSave = () => Alert.alert(t("common.ok"), t("settings.saved"));
+
   const handleLogout = () => {
-    Alert.alert("Logout", "Tem certeza que deseja sair?", [
-      {
-        text: "Cancelar",
-        style: "cancel",
-      },
-      {
-        text: "Sim, sair",
-        onPress: () => router.push("/(auth)/login"),
-      },
+    Alert.alert(t("settings.logout"), t("settings.logoutConfirm"), [
+      { text: t("settings.cancel"), style: "cancel" },
+      { text: t("settings.yesLogout"), onPress: () => router.push("/(auth)/login") },
     ]);
   };
 
   return (
-    <View className="flex-1 bg-gray-100">
-      <ScrollView className="flex-1">
-        <View className="items-center justify-center py-8 bg-white mb-4">
+    <ScreenContainer edges={["top", "bottom"]}>
+      <ScreenHeader title={t("settings.title")} showBack />
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <View className="items-center py-8 bg-surface dark:bg-[#1A1A2E] mb-3">
           <View className="relative">
-            <Image
-              source={avatar}
-              className="w-32 h-32 rounded-full border-2 border-gray-200"
-              style={{
-                width: 150,
-                height: 150,
-              }}
-            />
-            <TouchableOpacity className="absolute bottom-0 right-0 bg-gray-800 p-2 rounded-full">
-              <FontAwesome5 name="camera" size={16} color="#FFFFFF" />
+            <View className="rounded-full border-2 border-brand p-1">
+              <Image source={avatar} style={{ width: 110, height: 110 }} className="rounded-full" />
+            </View>
+            <TouchableOpacity className="absolute bottom-1 right-1 bg-brand p-2.5 rounded-full">
+              <FontAwesome5 name="camera" size={14} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
+          <Text className="text-text-muted dark:text-gray-400 font-rubik mt-3">{t("settings.changePhoto")}</Text>
         </View>
 
-        <View className="bg-white rounded-lg mx-4 p-4 mb-4">
-          {/* Campo Nome */}
-          <Text className="text-gray-500 mb-1">Nome</Text>
-          <TextInput
-            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
-            value={name}
-            onChangeText={setName}
-            placeholder="Seu nome completo"
+        <View className="bg-surface dark:bg-[#1A1A2E] rounded-3xl mx-4 p-5 mb-4">
+          <Text className="text-lg font-rubik-bold text-text dark:text-white mb-4">{t("settings.appearance")}</Text>
+          <OptionRow
+            label={t("settings.theme")}
+            options={["light", "dark", "system"]}
+            value={themeMode}
+            onChange={setThemeMode}
+            labels={themeLabels}
           />
-
-          {/* Campo Usuário */}
-          <Text className="text-gray-500 mb-1">Usuário</Text>
-          <TextInput
-            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Seu nome de usuário"
-            autoCapitalize="none"
-          />
-
-          {/* Campo Bio */}
-          <Text className="text-gray-500 mb-1">Bio</Text>
-          <TextInput
-            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
-            value={bio}
-            onChangeText={setBio}
-            placeholder="Conte algo sobre você"
-            multiline
-            numberOfLines={3}
-          />
-
-          {/* Campo Email  */}
-          <Text className="text-gray-500 mb-1">Email</Text>
-          <TextInput
-            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Seu email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
-
-          {/* Campo Telefone */}
-          <Text className="text-gray-500 mb-1">Telefone</Text>
-          <TextInput
-            className="text-base font-medium mb-4 bg-gray-50 rounded-md p-4"
-            value={phone}
-            onChangeText={setPhone}
-            placeholder="Seu telefone"
-            autoCapitalize="none"
-            keyboardType="phone-pad"
+          <OptionRow
+            label={t("settings.language")}
+            options={["pt", "en", "es"]}
+            value={language}
+            onChange={setLanguage}
+            labels={langLabels}
           />
         </View>
 
-        <View className="mt-4 mx-4 mb-8">
-          <TouchableOpacity
-            className="bg-violet-500 py-3 rounded-lg items-center mb-3"
-            onPress={handleSave}
-          >
-            <Text className="text-white font-medium text-lg">update</Text>
-          </TouchableOpacity>
+        <View className="bg-surface dark:bg-[#1A1A2E] rounded-3xl mx-4 p-5 mb-4">
+          <FormInput label={t("settings.name")} value={name} onChangeText={setName} placeholder={t("settings.name")} />
+          <FormInput label={t("settings.username")} value={username} onChangeText={setUsername} placeholder="@username" autoCapitalize="none" />
+          <View className="mb-4">
+            <Text className="text-sm font-rubik-medium text-text-muted dark:text-gray-400 mb-2">{t("settings.bio")}</Text>
+            <TextInput
+              className="bg-background dark:bg-[#0F0F1A] border border-border dark:border-[#2D2D44] rounded-2xl p-4 text-base text-text dark:text-white font-rubik min-h-[90px]"
+              value={bio}
+              onChangeText={setBio}
+              multiline
+              textAlignVertical="top"
+              placeholderTextColor="#9C96AD"
+            />
+          </View>
+          <FormInput label={t("settings.email")} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+          <FormInput label={t("settings.phone")} value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
+        </View>
 
-          <TouchableOpacity
-            className="bg-red-500 py-3 rounded-lg items-center"
-            onPress={handleLogout}
-          >
-            <Text className="text-white font-medium text-lg">logout</Text>
-          </TouchableOpacity>
+        <View className="px-4 pb-8 gap-3">
+          <Button label={t("settings.save")} onPress={handleSave} />
+          <Button label={t("settings.logout")} variant="danger" onPress={handleLogout} />
         </View>
       </ScrollView>
-    </View>
+    </ScreenContainer>
   );
 }

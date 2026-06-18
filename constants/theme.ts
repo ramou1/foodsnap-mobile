@@ -1,0 +1,17 @@
+export const theme = {
+  brand: "#6e11b0",
+  brandLight: "#9333ea",
+  brandDark: "#4c0b7a",
+  accent: "#FF6B35",
+  accentLight: "#FFF0EB",
+  like: "#FF4D67",
+  repost: "#F59E0B",
+  surface: "#FFFFFF",
+  background: "#F8F7FA",
+  muted: "#9C96AD",
+  border: "#E8E6ED",
+  text: "#1A1A2E",
+  textMuted: "#6B7280",
+  success: "#10B981",
+  danger: "#EF4444",
+} as const;

@@ -57,9 +57,17 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name="create-post"
+          name="settings"
           options={{
-            headerTitle: "nova publicação",
+            headerShown: false,
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
+          name="posts/create-post"
+          options={{
+            headerShown: true,
             presentation: "modal",
             animation: "slide_from_bottom",
           }}

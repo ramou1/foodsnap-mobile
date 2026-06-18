@@ -1,12 +1,13 @@
-import { ImageSourcePropType } from 'react-native';
-import { AVPlaybackSource } from 'expo-av';
-import { User } from './user';
+import { ImageSourcePropType } from "react-native";
+import { User } from "./user";
+
+export type VideoSource = number | { uri: string };
 
 export interface Post {
   id: string;
   image: ImageSourcePropType;
-  mediaType?: 'image' | 'video';
-  mediaSource?: ImageSourcePropType | AVPlaybackSource;
+  mediaType?: "image" | "video";
+  mediaSource?: ImageSourcePropType | VideoSource;
   reposted?: boolean;
   height?: number;
   user: User | null;
