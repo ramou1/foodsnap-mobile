@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, TouchableOpacity, Text, ImageSourcePropType } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  ImageSourcePropType,
+  DimensionValue,
+  StyleSheet,
+} from "react-native";
 import { useVideoPlayer, VideoView, VideoSource } from "expo-video";
 import { Ionicons } from "@expo/vector-icons";
 
 interface VideoPlayerProps {
   source: ImageSourcePropType | VideoSource;
-  style?: { width?: number | string; height?: number };
+  style?: { width?: DimensionValue; height?: number };
   onPress?: () => void;
   shouldPlay?: boolean;
   showControls?: boolean;
@@ -58,11 +64,13 @@ export default function VideoPlayer({
     onPress?.();
   };
 
-  const containerStyle = {
-    width: style?.width ?? "100%",
-    height: style?.height ?? 200,
-    overflow: "hidden" as const,
-  };
+  const containerStyle = StyleSheet.flatten([
+    styles.container,
+    {
+      width: style?.width ?? "100%",
+      height: style?.height ?? 200,
+    },
+  ]);
 
   return (
     <TouchableOpacity style={containerStyle} onPress={handleVideoPress} activeOpacity={0.9}>
@@ -88,3 +96,9 @@ export default function VideoPlayer({
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    overflow: "hidden",
+  },
+});

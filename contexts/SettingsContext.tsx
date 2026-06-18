@@ -61,8 +61,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     [themeMode, language, isDark, isReady, setThemeMode, setLanguage]
   );
 
-  if (!isReady) return null;
-
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
 }
 

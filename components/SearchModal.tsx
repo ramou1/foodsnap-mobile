@@ -198,13 +198,13 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose }) => {
     if ("type" in item) {
       saveSearchHistory(item as SearchItem);
 
-      if (item.type === "user") {
+      if (item.type === "user" && item.id) {
         router.push({
           pathname: "/users/[id]",
           params: { id: item.id },
         });
         onClose();
-      } else if (item.type === "restaurant") {
+      } else if (item.type === "restaurant" && item.id) {
         router.push({
           pathname: "/restaurants/[id]",
           params: { id: item.id },

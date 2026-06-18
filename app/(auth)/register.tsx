@@ -158,11 +158,16 @@ export default function RegisterScreen() {
           ))}
         </View>
 
-        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 16 }} keyboardShouldPersistTaps="handled">
-          {renderStepContent()}
-        </ScrollView>
+        <View className="flex-1">
+          <ScrollView
+            contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 16 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            {renderStepContent()}
+          </ScrollView>
+        </View>
 
-        <View style={{ paddingHorizontal: 24, paddingBottom: 16, paddingTop: 8 }}>
+        <View style={{ paddingHorizontal: 24, paddingBottom: 16, paddingTop: 8, zIndex: 1 }}>
           <Button
             label={currentStep === 3 ? t("auth.createAccount") : t("auth.continue")}
             onPress={nextStep}

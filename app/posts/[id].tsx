@@ -13,13 +13,14 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { POSTS } from "../../mocks/posts";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Post } from "@/types/post";
+import { Post, getPostMediaSource, isVideoPost } from "@/types/post";
 import VideoPlayer from "@/components/VideoPlayer";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function PostDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id: rawId } = useLocalSearchParams<{ id: string }>();
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
   const router = useRouter();
   const { t } = useTranslation();
   const [post, setPost] = useState<Post | null>(null);
@@ -48,11 +49,6 @@ export default function PostDetailScreen() {
       return "Recentemente";
     }
   };
-
-  const isVideo =
-    post?.mediaType === "video" ||
-    (post && typeof post.image === "object" && "uri" in post.image && post.image.uri?.endsWith(".mp4")) ||
-    (post && typeof post.image === "number" && post.image.toString().includes("mp4"));
 
   if (!post) {
     return (
@@ -84,9 +80,9 @@ export default function PostDetailScreen() {
             </TouchableOpacity>
           </View>
 
-          {isVideo ? (
+          {isVideoPost(post) ? (
             <VideoPlayer
-              source={(post.mediaSource || post.image) as any}
+              source={getPostMediaSource(post)}
               style={{ width: screenWidth, height: screenWidth * 1.4 }}
               shouldPlay
               showControls

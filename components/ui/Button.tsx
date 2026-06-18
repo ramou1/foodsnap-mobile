@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text, ActivityIndicator, PressableProps } from "react-native";
+import { Pressable, Text, ActivityIndicator, PressableProps, Platform } from "react-native";
 
 type Variant = "primary" | "secondary" | "outline" | "danger" | "ghost";
 
@@ -38,7 +38,8 @@ export function Button({
         isDisabled ? "opacity-50" : ""
       } ${className}`}
       disabled={isDisabled}
-      onPress={isDisabled ? undefined : onPress}
+      onPress={onPress}
+      style={Platform.OS === "web" && !isDisabled ? { cursor: "pointer" } : undefined}
       {...props}
     >
       {loading ? (

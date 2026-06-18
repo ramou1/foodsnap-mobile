@@ -18,4 +18,19 @@ export interface Post {
   location?: string;
 }
 
+export function getPostMediaSource(post: Post): ImageSourcePropType | VideoSource {
+  return post.mediaSource ?? post.image;
+}
+
+export function isVideoPost(post: Post): boolean {
+  if (post.mediaType === "video") return true;
+  if (typeof post.image === "object" && post.image !== null && "uri" in post.image) {
+    return Boolean(post.image.uri?.endsWith(".mp4"));
+  }
+  if (typeof post.image === "number") {
+    return post.image.toString().includes("mp4");
+  }
+  return false;
+}
+
 export { User };

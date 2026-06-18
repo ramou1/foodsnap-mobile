@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, Edge } from "react-native-safe-area-context";
+import { View } from "react-native";
+import { Edge, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSettings } from "@/contexts/SettingsContext";
 
 interface ScreenContainerProps {
@@ -14,13 +15,17 @@ export function ScreenContainer({
   className = "",
 }: ScreenContainerProps) {
   const { isDark } = useSettings();
+  const insets = useSafeAreaInsets();
+
+  const paddingTop = edges.includes("top") ? insets.top : 0;
+  const paddingBottom = edges.includes("bottom") ? insets.bottom : 0;
 
   return (
-    <SafeAreaView
-      edges={edges}
-      className={`flex-1 ${isDark ? "bg-[#0F0F1A]" : "bg-background"} ${className}`}
+    <View
+      style={{ flex: 1, paddingTop, paddingBottom }}
+      className={`${isDark ? "bg-[#0F0F1A]" : "bg-background"} ${className}`}
     >
       {children}
-    </SafeAreaView>
+    </View>
   );
 }
